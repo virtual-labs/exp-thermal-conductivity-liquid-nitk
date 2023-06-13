@@ -1,13 +1,332 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-		<!-- Your code goes here-->
+<html lang="en-US">
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+<head>
+  <meta charset="UTF-8">
+
+  <title>SOLVE - heat transfer - Thermal Conductivity of Liquids</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+</head>
+
+<body onload="fillWater()">
+
+  <!-- Defining Container for Simulation -->
+  <div id="container">
+
+      <!-- Progress bar to show progress of simulation -->
+      <div id="progress" style="    height: 5px; width: 0%; background-color: rgb(62, 137, 221);"></div>
+
+
+      <!-- Replace TITLE with simulation title to be displayed next to logo-->
+      <div id="simtitle">Thermal Conductivity of Liquids</div>
+
+      
+      <!-- Region for simulation display -->
+      <div class="simplace">
+        <div id="grad1" style="position: absolute; left: 239px; top:429px; text-align:left;  width:219px;color:#119EFF; visibility: hidden; "></div>
+        <div id="grad2" style="position: absolute; left: 414px; top:393px; text-align:left;  width:74px;color:#119EFF; visibility: hidden; "></div>
+
+        <img id='img-sim' src="images/level2.png" alt="" >
+        <img id='img-sim1' src="images/T.png" alt="" >
+        <!-- <img id='img-sim1' src="images/level2.png" alt="" style="visibility: hidden;"> -->
+        <div id="results" style="position: absolute;left: 85px;top: 175px;padding: 14px;font-size: 20px;">
+          <div id='massflowtxt'></div>
+          <div id='heatlosttxt'></div>
+          <div id='areatxt'></div>
+          <div id='condKtxt'></div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+    <!-- Region for comment / question prompts style="visibility: hidden";-->
+    <div id="commentboxleft">
+      <ul>
+        <li>Mass flow rate of water (m<sub>w</sub>) = 1.66*10<sup>-4</sup></li>
+        <li>Thermal Conductivity of Thermocouple = 0.167</li>
+      </ul>
+
+    </div>
+    <div id="commentboxright">
+      <ul>
+        <li>Liquid layer diameter = d = 7.5mm</li>
+        <li>Liquid layer thickness = 3mm</li>
+      </ul>
+    </div>
+
+    <!-- DND-Title of region for variables display -->
+    <div id="vartitle">VARIABLES</div>
+
+    <!-- Region for Input parameters of simulation -->
+    <div id="variables">
+
+      <!-- System variable input from user through slider and spinner jQuery widgets 
+      repeat block with new variable name and new id for widgets-->
+
+      <div class="variable1">
+        
+        <div class="varname">
+          <!-- Taking the input for voltage(for now the values are hard coded for 50V) -->
+          <p title="Link Length">Voltage(V)</p>
+          <input type="range" min="20" max="60" step="20" id="voltage"></input>
+          <p>Slide this to start</p>
+        </div>
+        <input type="text" id="voltageVal" readonly onclick={update()}></input>
+        <div><button id='set' disabled>Set</button></div>
+        <!-- SET gets activated on the setting any value with slider -->
+
+      </div>
+
+
+      <!-- All the below input fields are readonly that, displays the values of t1, t2, to, ti -->
+
+      <div class="variable2">
+        <div class="varname">
+          <p title="Link Length">T<sub>1</sub>(&deg;C)</p>
+          <input id="temp1" readonly></input>
+        </div>
+      </div>
+
+
+      <div class="variable3">
+        <div class="varname">
+          <p title="Link Length">T<sub>2</sub>(&deg;C)</p>
+          <input id="temp2" readonly></input>
+        </div>
+      </div>
+
+
+      <div class="variable4">
+        <div class="varname">
+          <p title="Link Length">T<sub>i</sub>(&deg;C)</p>
+          <input id="tempi" readonly></input>
+        </div>
+      </div>
+
+      <div class="variable5">
+        <div class="varname">
+          <p title="Link Length">T<sub>o</sub>(&deg;C)</p>
+          <input id="tempo" readonly></input>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+    <!-- DND-Title of region for controls display -->
+    <div id="ctrltitle">CONTROLS</div>
+
+    <!-- Region for User controls of simulation -->
+    <div id="controls">
+
+      <img id="start" class="" src="images/blueplaydull.png" />
+      <img alt="next-button" id='next' class="" src="images/bluefwddullsbw.png" />
+      <img  style="position: absolute; visibility: hidden; top: 81px; left: 54px;" alt="restart" id='restart' class="" src="images/restartdull.png" onclick="Refresh()" />
+    </div>
+
+
+    <!-- DND-Copyright display-->
+    <div id="copyright"> Copyright &copy; SOLVE The Virtual Lab @ NITK Surathkal </div>
+
+
+  </div>
+  <!-- Container div close -->
+
+  
+  <script>
+    let set = document.getElementById('set');
+    let next = document.getElementById('next');
+    let start = document.getElementById('start');
+    let massflowtxt = document.getElementById('massflowtxt');
+    let heatlosttxt = document.getElementById('heatlosttxt');
+    let areatxt = document.getElementById('areatxt');
+    let condKtxt = document.getElementById('condKtxt');
+    let imgSim = document.getElementById('img-sim');
+    let titleContainer = document.getElementById("titleincanvas");
+    let results = document.getElementById("results");
+    let progress = document.getElementById("progress");
+    let voltage = document.getElementById("voltage");
+    let ftemp1 = document.getElementById("temp1"); //selscting the input field for temp1
+    let ftemp2 = document.getElementById("temp2"); //selscting the input field for temp2
+    let ftempi = document.getElementById("tempi"); //selscting the input field for tempi
+    let ftempo = document.getElementById("tempo"); //selscting the input field for tempo
+
+
+    // Values of variables are hardcoded here
+    let liqflow = 10;
+    let massflow = liqflow / 60;
+    let massflow1 = massflow.toFixed(4);
+    let dia = 75 * (10 ** -3);
+    let temp1 = 88;
+    let temp1random = [100, 90, 89, 88]; //to generate random values for temp1
+    let temp2 = 77;
+    let temp2random = [40, 50, 60, 75]; //to generate random values for temp2
+    let tempi = 35;
+    let tempiRandom = [35, 35, 35, 35]; //to generate random values for tempi
+    let tempo = 34;
+    let tempoRandom = [45, 25, 30, 33]; //to generate random values for tempo
+
+    let spHeat = 4187;
+    let deltax = 3 * (10 ** -3);
+    let area = 3.14 * (dia ** 2) / 4;
+    let area1 = area.toFixed(4);
+    let heatLost = (massflow * spHeat * (tempo - tempi)) / 1000;
+    let heatLost1 = heatLost.toFixed(4);
+    let condK = (heatLost) / (area * (temp1 - temp2) / deltax);
+    let condK1 = condK.toFixed(4);
+    let setclikced = 'nope'; //defined to check if set button is clicked and enable or disable the start button
+    let nextclicked = 'nope'; //defined to check if next button is clicked and enable or disable the next button
+
+
+    // Define an array of image sources
+    const imageSources = [ "images/level2.png", "images/level3.png", "images/level4.png","images/level5.png" ];
+    let currentIndex = 0;
+
+    // Define the interval time in milliseconds
+    const intervalTime = 2000; // 2 seconds
+    const blinkTime = 1000; // 0.5 seconds
+
+    voltage.addEventListener('click', () => {
+      
+      console.log('click')
+      console.log("voltage = " + document.getElementById('voltage').value)
+      
+      progress.style.width = '5%';
+      document.getElementById('voltageVal').value = document.getElementById('voltage').value;
+      console.log("voltageval = " + document.getElementById('voltageVal').value);
+      set.disabled = false;
+      set.classList.add('start');
+    })
+
+    set.addEventListener('click', () => {
+      console.log('set');
+      console.log("setclikced :" + setclikced);
+
+      progress.style.width = '10%';
+      set.disabled = true;
+      set.classList.remove('start');
+      start.classList.add('start');
+      setclikced = 'yep';
+      document.getElementById('voltage').disabled = true;
+    })
+
+    let progressWidth = 20
+    start.addEventListener('click', () => {
+      if (setclikced === 'yep') {
+        console.log('actual start');
+
+        start.classList.remove('start');
+        // document.getElementById('restart').style.visibility = "visible";
+        setTimeout(() => {
+          document.getElementById('temp1').value = 88;
+          document.getElementById('temp2').value = 77;
+          document.getElementById('tempi').value = 35;
+          document.getElementById('tempo').value = 34;
+          state = 'started';
+        }, 8001);
+
+        // Set the interval to update the image
+        let imageInterval = setInterval(updateImage, intervalTime);
+
+        // Function to update the image source
+        function updateImage() {
+          console.log('updating Image to ' + imageSources[currentIndex])
+          // Update the src attribute with the next image source
+          imgSim.src = imageSources[currentIndex];
+          document.getElementById('temp1').value = temp1random[currentIndex];
+          document.getElementById('temp2').value = temp2random[currentIndex];
+          document.getElementById('tempi').value = tempiRandom[currentIndex];
+          document.getElementById('tempo').value = tempoRandom[currentIndex];
+
+          // Increment the index
+          currentIndex++;
+          progressWidth += 20;
+
+          // Reset the index if it exceeds the array length
+          if (currentIndex >= imageSources.length) {
+            progressWidth = 100;
+            clearInterval(imageInterval);
+            next.src = "images/bluefwddulls.png";
+
+            console.log('next to blink');
+
+            next.style.animation = 'blink 1s infinite';
+            nextclicked = 'yep';
+            next.classList.add('next');
+            // document.getElementById('restart').style.visibility = "visible";
+          }
+          progress.style.width = progressWidth + '%';
+        }
+
+        // Call the updateImage function initially
+        updateImage();
+      }
+
+      setclikced = 'nope';
+      console.log("nextclikced :" + nextclikced);
+
+    })
+
+    next.addEventListener('click', () => {
+      if (nextclicked === 'yep') {
+        console.log('next');
+        document.getElementById("grad1").style.visibility = "hidden";
+        document.getElementById("grad2").style.visibility = "hidden";
+        document.getElementById("img-sim1").style.visibility = "hidden";
+        next.style.animation = null;
+        next.classList.remove('next');
+
+        // Replace the content inside the div
+        imgSim.style.display = 'none';
+        results.hidden = false;
+
+        // display the results
+        massflowtxt.innerHTML = "<span>Mass flow rate = 10mL/60s = </span> " + massflow1 + "<span> kg/s</span>";
+        heatlosttxt.innerHTML = "<span>Heat lost </span> = " + heatLost1 + "<span> kW</span>";
+        areatxt.innerHTML = "<span>Area </span> = " + area1 + "<span> m<sup>2</sup></span>";
+        condKtxt.innerHTML = "<span>Conductivity </span> = (q<sub>w</sub>)/(Area*(△T/△X)) = " + condK1 + "<span> W/m<sup>2</sup>K</span>";
+         document.getElementById('restart').style.visibility = "visible";
+
+      };
+
+      nextclicked = 'yep(1)';
+      console.log("nextclicked :" + nextclicked);
+
+    });
+
+    function Refresh() {
+    window.location = window.location.href;
+};
+    function fillWater(){
+      
+      document.getElementById("img-sim1").style.visibility = "visible";
+      setTimeout(function(){
+        document.getElementById("img-sim").style.visibility = "visible";
+        // document.getElementById("img-sim1").style.visibility = "visible";
+        
+                                    document.getElementById("grad1").style.visibility = "visible";
+                                    document.getElementById("grad1").style.animation="moveGrad1 2s forwards";
+                                    setTimeout(function(){
+                                      document.getElementById("grad2").style.visibility = "visible";
+                                      setTimeout(function(){
+                                        document.getElementById("img-sim1").style.animation="moveT 1s forwards";
+                                        setTimeout(function(){
+                                        document.getElementById("grad2").style.animation="moveGrad2 1s forwards";
+
+                                      },500);
+                                      },1800);
+
+                                    },300);     
+      },500);
+    }
+    </script>
+
 </body>
+
 </html>

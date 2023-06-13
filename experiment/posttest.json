@@ -2,12 +2,12 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "Which type of liquid is generally expected to have the highest thermal conductivity?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Nonpolar liquids",
+        "b": "Polar liquids",
+        "c": "Organic liquids",
+        "d": "Aqueous solutions"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -15,16 +15,33 @@
         "c": "Explanation 2",
         "d": "Explanation 2"
       },
-      "correctAnswer": "a",
+      "correctAnswer": "d",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "How does the thermal conductivity of liquids compare to that of solids?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Liquids have higher thermal conductivity than solids.",
+        "b": "Liquids have lower thermal conductivity than solids.",
+        "c": "Liquids have similar thermal conductivity as solids.",
+        "d": "The thermal conductivity of liquids varies widely, so no generalization can be made."
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which of the following liquids is expected to have the lowest thermal conductivity?",
+      "answers": {
+        "a": "Acetone",
+        "b": "Ethylene glycol",
+        "c": "Liquid nitrogen",
+        "d": "Benzene"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -33,7 +50,41 @@
         "d": "Explanation 2"
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How does the thermal conductivity of liquids typically change with increasing viscosity?",
+      "answers": {
+        "a": " It decreases",
+        "b": "It increases",
+        "c": "It remains constant",
+        "d": "It depends on the liquid"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "a",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "Which factor does NOT significantly affect the thermal conductivity of liquids?",
+      "answers": {
+        "a": "Density",
+        "b": "Molecular size",
+        "c": "Surface tension",
+        "d": "Electrical conductivity"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
     }
   ]
 }
