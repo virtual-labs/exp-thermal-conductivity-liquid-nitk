@@ -2,12 +2,29 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "Which of the following statements correctly describes the thermal conductivity of liquids?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Liquids have higher thermal conductivity than gases.",
+        "b": "Liquids have lower thermal conductivity than gases.",
+        "c": "The thermal conductivity of liquids is independent of temperature.",
+        "d": "The thermal conductivity of liquids is primarily affected by their viscosity."
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the primary mechanism of heat transfer in liquids?",
+      "answers": {
+        "a": "Conduction",
+        "b": "Convection",
+        "c": "Radiation",
+        "d": "Advection"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -19,12 +36,12 @@
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Which of the following factors generally increases the thermal conductivity of liquids?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Higher viscosity",
+        "b": "Lower temperature",
+        "c": "Increased pressure",
+        "d": "Greater molecular size"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -33,6 +50,40 @@
         "d": "Explanation 2"
       },
       "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which liquid is expected to have the highest thermal conductivity?",
+      "answers": {
+        "a": "Water",
+        "b": "Ethanol",
+        "c": "Olive oil",
+        "d": "Mercury"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "d",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How does the thermal conductivity of liquids typically change with increasing temperature?",
+      "answers": {
+        "a": "It decreases",
+        "b": "It increases",
+        "c": "It remains constant",
+        "d": "It depends on the liquid"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "a",
       "difficulty": "beginner"
     }
   ]
