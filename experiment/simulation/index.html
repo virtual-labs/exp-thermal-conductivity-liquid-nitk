@@ -2,331 +2,664 @@
 <html lang="en-US">
 
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <title>SOLVE - heat transfer - Thermal Conductivity of Liquids</title>
-  <link rel="stylesheet" href="./css/style.css" />
-  <script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
-</head>
+<title>SOLVE - Heat Transfer - Heat through a Long Fin</title>
 
-<body onload="fillWater()">
+<!-- DND-Required css and js files -->
+<link rel="stylesheet" href="./css/MOMstyle.css" />
+<script src='./js/jquery.min.js'></script>
+<script src='./js/jquery-ui.min.js'></script>
+<script type="text/javascript" src= "./js/MOMscript.js"></script>
+<script src="./js/graph.ob.js"></script>
+<script src="./js/graph_use.ob.js"></script>
+<script src="./js/graph_use2.ob.js"></script>
+<link href="./css/mathstyle.css" rel="stylesheet" /><!--Stylesheet to display Math functions -->
 
-  <!-- Defining Container for Simulation -->
-  <div id="container">
+<script type="text/javascript" src= "./js/MOMscript.js"></script>
+<script type="text/javascript" >
+//Script specific to simulation
 
-      <!-- Progress bar to show progress of simulation -->
-      <div id="progress" style="    height: 5px; width: 0%; background-color: rgb(62, 137, 221);"></div>
+//controls section
+var v = 0;
+var tinf = 27; //Celsuis
+var tbase = 30; //Celsuis
+var len = 20; //Meter
+var peri = 5; //Perimeter
+var a_c = 25; //Area of cross section
+var h_coeff = 100; //Convection coeff
+var k = 201;
+var qfin = 0;
+var t_l2 = 0;
 
 
-      <!-- Replace TITLE with simulation title to be displayed next to logo-->
-      <div id="simtitle">Thermal Conductivity of Liquids</div>
+ktemp// var m = 5;
 
+//comments section
+var commenttext="Some Text";
+var calctext = "some Text";
+var commentloc=0;
+
+//graphics section
+var canvas;
+var ctx;
+
+//timing section
+var simTimeId = setInterval("",'1000');
+var TimeInterval = setInterval("",'1000');
+var TimeInterval1 = setInterval("",'1000');
+var time=0;
+var time1 = 0;
+var time2 = 0;
+
+//point tracing section and initial(atmospheric section)
+var t1 = [26, 28.1, 26.5, 27, 27.2];
+var off = [0,0,0,0,0];
+var q = [43.36, 43.71, 43.84];
+var qtemp = 1;
+var ktemp = 1;
+var th = [45,45,45,45,45];
+
+
+
+//temporary or dummy variables for locking buttons 
+var temp=0;
+var temp1 = 2;
+var temp2 = 0;
+
+/*
+// for trials during development
+function trythis()
+{ 		alert();}
+*/
+
+//change simulation specific css content. e.g. padding on top of variable to adjust appearance in variables window
+function editcss()
+{
+$('.variable').css('padding-top','20px');
+$('#datatable1').css('position','absolute');
+$('#datatable2').css('position','absolute');
+$('#datatable1').css('left','120px');
+$('#datatable1').css('top','340px');
+$('#datatable2').css('left','395px');
+$('#datatable2').css('top','340px');
+
+
+}
+
+
+//start of simulation here; starts the timer with increments of 0.1 seconds
+function startsim()
+{
+	simTimeId=setInterval("time=time+0.1; comment1(); ",'100');
+}
+
+// switches state of simulation between temp 0:Playing & 1:Paused
+function simstate()
+{
+  if (temp == 1){
+
+    var imgfilename=document.getElementById('playpausebutton').src;
+    imgfilename = imgfilename.substring(imgfilename.lastIndexOf('/') + 1, imgfilename.lastIndexOf('.'));
+      if (imgfilename=="blueplaydull")
+      {
+        time=0;	
+        document.getElementById('playpausebutton').src="./images//bluepausedull.png";
+        temp = 0;
+        temp1 = 1;
+        offset();
       
-      <!-- Region for simulation display -->
-      <div class="simplace">
-        <div id="grad1" style="position: absolute; left: 239px; top:429px; text-align:left;  width:219px;color:#119EFF; visibility: hidden; "></div>
-        <div id="grad2" style="position: absolute; left: 414px; top:393px; text-align:left;  width:74px;color:#119EFF; visibility: hidden; "></div>
+        TimeInterval = setInterval("time1 = time1 + .1; simperiod();",'100'); 
+        TimeInterval1 = setInterval("time2 = time2 + 1; varinit()", '1000');
+    } 
+  }
+  calc("short_insulated");
+}
+//restart simulation temp1 == 0: can restart experienment and variable initilization
+function rotstate(){
+  if(temp1 == 0){
+    temp2 = 0; temp1 = 2;
+    t1 = [26, 28.1, 26.5, 27, 27.2];
+    th = [45,45,45,45,45];
+    v=0;
+    varinit();
+    startsim();
+    drawModel();
+    $("#vspinner").spinner({disabled : false});
+    //$("#vfspinner").spinner({disabled : false});
+    $("#vslider").slider({disabled : false});
+    //$("#vfslider").slider({disabled : false});
+  }
+} 
 
-        <img id='img-sim' src="images/level2.png" alt="" >
-        <img id='img-sim1' src="images/T.png" alt="" >
-        <!-- <img id='img-sim1' src="images/level2.png" alt="" style="visibility: hidden;"> -->
-        <div id="results" style="position: absolute;left: 85px;top: 175px;padding: 14px;font-size: 20px;">
-          <div id='massflowtxt'></div>
-          <div id='heatlosttxt'></div>
-          <div id='areatxt'></div>
-          <div id='condKtxt'></div>
-        </div>
-      </div>
 
-    </div>
+//offset for thermometer and temp change 
+function offset(){
+  if(v == 10){
+    //path = "./images//V1.jpg";
+    off[0] = 23.4;
+    off[1] = 22.58;
+    off[2] = 22.9;
+    off[3] = 6.5;
+    off[4] = 5.9;
+  }
+  else if(v == 20){
+    //path = "./images//V2.jpg";
+    off[0] = 24;
+    off[1] = 22.98;
+    off[2] = 23.3;
+    off[3] = 7;
+    off[4] = 6.9;
+  }
+  else if(v == 30){
+    //path = "./images//V3.jpg";
+    off[0] = 24.2;
+    off[1] = 23.18;
+    off[2] = 23.7;
+    off[3] = 7.5;
+    off[4] = 7.4;
+  }
+}
+//water temperature changes
+// function watertemp(){
+//   switch(vf){
+//     case 5:t1[6] += 5.4;break;
+//     case 10:t1[6] += 2.4;break;
+//     case 15:t1[6] += 1.4;break;
+//     case 20:t1[6] += 0.4;break;
+//   }
+// }
+    
+//stops simulations
+function simperiod(){
+  if(time1 >= 5.0){
+    clearInterval(TimeInterval);
+    clearInterval(TimeInterval1);
+    time1 = 0;
+    time2 = 0
+    temp1 = 0;
+    temp2 = 1;
+    document.getElementById('playpausebutton').src="./images//blueplaydull.png";
+    //watertemp();
+     printcomment("", 2);
 
+  }
+  else{
+    drawGradient();
+    printcomment("Wait till countdown reaches 0  ["+ (5 - Math.round(time1)) + " seconds left]", 2);
+  }
+  if (tbase < tinf) {
+    printcomment("<strong>T<sub>base</sub> adjusted to <strong>" + (Math.round(tinf+5)), 2)
+  }
+}
+//switch screen here temp2 = 1: can switch; else it locks  
+function switchscreen(){
+  if(temp2 == 1){
+    var imgfilename=document.getElementById('switchbutton').src;
+    imgfilename = imgfilename.substring(imgfilename.lastIndexOf('/') + 1, imgfilename.lastIndexOf('.'));
+    if(imgfilename=="bluefwddulls"){
+      temp1 = 1;
+      document.getElementById('switchbutton').src="./images//bluebkdulls.png";
+      document.getElementById('calculation').style.visibility = "visible";
+      document.getElementById('simscreen').style.visibility = "hidden";
+      document.getElementById('textbox').style.visibility = "hidden";
+      document.getElementById('textbox1').style.visibility = "hidden";
+      printcomment("<i>h(Convection Coefficient)</i> d1 = 45mm d2 = 75mm<br><i> Length of pipe</i> = 500mm<br><i>K</i>  = 0.069 W/m.K", 0);
+      calc(opt);
+    }
+    if(imgfilename=="bluebkdulls"){
+      temp1 = 0;
+      document.getElementById('switchbutton').src = "./images//bluefwddulls.png";
+      document.getElementById('calculation').style.visibility = "hidden";
+      document.getElementById('simscreen').style.visibility = "visible";
+      document.getElementById('textbox').style.visibility = "visible";
+      document.getElementById('textbox1').style.visibility = "visible";
+      temp2 =1;
+      printcomment("<i>h(Convection Coefficient)</i> d1 = 45mm d2 = 75mm<br><i> Length of pipe</i> = 500mm<br><i>K</i>  = 0.069 W/m.K", 1);
+      $("#symbol1").attr("style", "visibility:hidden");
+      $("#symbol2").attr("style", "visibility:hidden");
+      $("#symbol3").attr("style", "visibility:hidden");
+      $("#symbol4").attr("style", "visibility:hidden");
+      content = '';
+      $("#answer1").html(content);
+      $("#answer2").html(content);
+      
+      
+    } 
+  }
+}
 
+//Calculations of the experienment
+function calc(opt){
+  //variables calculations
+  
+  var m= Math.sqrt((h_coeff*peri)/(k*a_c));
+  // console.log(h_coeff)
+  // console.log(k)
+  // console.log(peri)
+  // console.log(a_c)
+  // console.log(m)
+  var datapoints = [];
+  var datapoints_1 = [];
+  var thetha_b = tbase-tinf;
+  if(opt=="short_insulated")
+  {
+    for(var i=0; i<=len; i++)
+    {
+        y = thetha_b * Math.exp(-m * i);
+        z = y + tinf;
+        // y = Math.round(y * 10)/10;
+        datapoints.push({x:i, y:z});
+    }
+  }
+  q_fin = Math.sqrt(h_coeff * peri * a_c * k ) * (thetha_b);
+  q_fin = q_fin.toFixed(2);
+  t_l2 = tinf + (thetha_b) * Math.exp(-m * (len / 2)).toFixed(2);
+  console.log(q_fin)
+  console.log(t_l2)
+  drawgraph("graph", datapoints, "x in mm", "Temperature profile(T(x))");
+  // drawgraph("graph1", datapoints_1, "x in mm", "Temperature profile(T)");
 
+  $("#qsubmit").click(function(){
+    $("#symbol2").attr("style", "visibility:hidden");
+    $("#symbol1").attr("style", "visibility:hidden");
 
-    <!-- Region for comment / question prompts style="visibility: hidden";-->
-    <div id="commentboxleft">
-      <ul>
-        <li>Mass flow rate of water (m<sub>w</sub>) = 1.66*10<sup>-4</sup></li>
-        <li>Thermal Conductivity of Thermocouple = 0.167</li>
-      </ul>
-
-    </div>
-    <div id="commentboxright">
-      <ul>
-        <li>Liquid layer diameter = d = 7.5mm</li>
-        <li>Liquid layer thickness = 3mm</li>
-      </ul>
-    </div>
-
-    <!-- DND-Title of region for variables display -->
-    <div id="vartitle">VARIABLES</div>
-
-    <!-- Region for Input parameters of simulation -->
-    <div id="variables">
-
-      <!-- System variable input from user through slider and spinner jQuery widgets 
-      repeat block with new variable name and new id for widgets-->
-
-      <div class="variable1">
+    if($("#qvalue").val() == q_fin){
+      $("#symbol2").attr("style", "visibility:visible; color: #028102;");
+      var content = '';
+    }
+    else{
+      $("#symbol1").attr("style", "visibility:visible; color:red;");
+      var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> <i> q<sub>f</sub> = '+q_fin+'</span> W';
         
-        <div class="varname">
-          <!-- Taking the input for voltage(for now the values are hard coded for 50V) -->
-          <p title="Link Length">Voltage(V)</p>
-          <input type="range" min="20" max="60" step="20" id="voltage"></input>
-          <p>Slide this to start</p>
-        </div>
-        <input type="text" id="voltageVal" readonly onclick={update()}></input>
-        <div><button id='set' disabled>Set</button></div>
-        <!-- SET gets activated on the setting any value with slider -->
+    }
+    $("#answer1").html(content);
+  });
 
-      </div>
+  $("#ksubmit").click(function(){
+    $("#symbol4").attr("style", "visibility:hidden");
+    $("#symbol3").attr("style", "visibility:hidden");
 
+    if($("#kvalue").val() == t_l2){
+      $("#symbol4").attr("style", "visibility:visible; color:#028102;");
+      var content = '';
+    }
+    else{
+      $("#symbol3").attr("style", "visibility:visible; color:red;");
+      var  content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> T = '+t_l2+'</span> ';
+    }
+    $("#answer2").html(content);
+  });
+}
 
-      <!-- All the below input fields are readonly that, displays the values of t1, t2, to, ti -->
+//draw gradient w.r.t. time in thermometer water flow and heater
+function drawGradient(){
 
-      <div class="variable2">
-        <div class="varname">
-          <p title="Link Length">T<sub>1</sub>(&deg;C)</p>
-          <input id="temp1" readonly></input>
-        </div>
-      </div>
+  //heater simulation
+  var h = 100*time1;
+  //create gradient
+  var grd1 = ctx.createLinearGradient(0, 0, h, 0)
+  grd1.addColorStop(0,"red");
+  grd1.addColorStop(1,"pink");
+  // Fill with gradient
+  ctx.fillStyle = grd1;
+  ctx.fillRect(100, 137, 295, 35);
+   
+   
+}
 
+// initial model 
+function drawModel()
+{
+  canvas = document.getElementById("simscreen");
+  ctx = canvas.getContext("2d");
+  ctx.clearRect(0,0,250,400);  //clears the complete canvas#simscreen everytime
+  
+  var background = new Image();
+  background.src = "./images//model4.png";
 
-      <div class="variable3">
-        <div class="varname">
-          <p title="Link Length">T<sub>2</sub>(&deg;C)</p>
-          <input id="temp2" readonly></input>
-        </div>
-      </div>
+  // Make sure the image is loaded first otherwise nothing will draw.
+  background.onload = function(){
+    ctx.drawImage(background, 50, 50, 400, 200); 
+    //ctx.clearRect(78, 210, 46, 64);
+    ctx.font = "15px Comic San MS";
 
+    ctx.fillStyle = "black";
+   ctx.lineJoin = "round";
 
-      <div class="variable4">
-        <div class="varname">
-          <p title="Link Length">T<sub>i</sub>(&deg;C)</p>
-          <input id="tempi" readonly></input>
-        </div>
-      </div>
+   ctx.rect(100, 137, 295, 35);
+   ctx.stroke();
 
-      <div class="variable5">
-        <div class="varname">
-          <p title="Link Length">T<sub>o</sub>(&deg;C)</p>
-          <input id="tempo" readonly></input>
-        </div>
-      </div>
+ 
+    drawGradient();
+    printcomment("\th =100 W/m<sup>2</sup>.K<br>\t<i>K</i>  = 201 W/m.K", 1)
+  }
+}
+  
 
-    </div>
+//check wether a voltage and water flow is selected
+function comment1(){
+  $( "#tinfspinner" ).spinner({change:function() { tinf = $("#tinfspinner").spinner("value"); } });
+  $( "#tbspinner" ).spinner({change:function() { tbase = $("#tbspinner").spinner("value"); } });
+  $( "#lspinner" ).spinner({change:function() { len = $("#lspinner").spinner("value"); } });
+  $( "#pspinner" ).spinner({change:function() { peri = $("#pspinner").spinner("value"); } });
+  $( "#acspinner" ).spinner({change:function() { a_c = $("#acspinner").spinner("value"); } });
 
+  if(tinf!=0){
+    time = 0;
+    temp = 1;
+    //$("#tinfspinner").spinner({disabled : true});
+    //$("#tinfslider").slider({disabled : true});
 
+    clearInterval(simTimeId);
+  }
+}
 
+//Change in Variables with respect to time
+function varinit()
+{
+	varchange();
+	//Variable r1 slider and number input types
+	$('#tinfslider').slider("value", tinf);	
+	$('#tinfspinner').spinner("value", tinf);
 
-    <!-- DND-Title of region for controls display -->
-    <div id="ctrltitle">CONTROLS</div>
-
-    <!-- Region for User controls of simulation -->
-    <div id="controls">
-
-      <img id="start" class="" src="images/blueplaydull.png" />
-      <img alt="next-button" id='next' class="" src="images/bluefwddullsbw.png" />
-      <img  style="position: absolute; visibility: hidden; top: 81px; left: 54px;" alt="restart" id='restart' class="" src="images/restartdull.png" onclick="Refresh()" />
-    </div>
-
-
-    <!-- DND-Copyright display-->
-    <div id="copyright"> Copyright &copy; SOLVE The Virtual Lab @ NITK Surathkal </div>
-
-
-  </div>
-  <!-- Container div close -->
+  if (tinf > tbase) {
+    tbase = tinf + 5;
+  }
+  //-----------
+  $('#tbslider').slider("value", tbase);	
+	$('#tbspinner').spinner("value", tbase);
 
   
-  <script>
-    let set = document.getElementById('set');
-    let next = document.getElementById('next');
-    let start = document.getElementById('start');
-    let massflowtxt = document.getElementById('massflowtxt');
-    let heatlosttxt = document.getElementById('heatlosttxt');
-    let areatxt = document.getElementById('areatxt');
-    let condKtxt = document.getElementById('condKtxt');
-    let imgSim = document.getElementById('img-sim');
-    let titleContainer = document.getElementById("titleincanvas");
-    let results = document.getElementById("results");
-    let progress = document.getElementById("progress");
-    let voltage = document.getElementById("voltage");
-    let ftemp1 = document.getElementById("temp1"); //selscting the input field for temp1
-    let ftemp2 = document.getElementById("temp2"); //selscting the input field for temp2
-    let ftempi = document.getElementById("tempi"); //selscting the input field for tempi
-    let ftempo = document.getElementById("tempo"); //selscting the input field for tempo
+  //-----------
+  $('#lslider').slider("value", len);	
+	$('#lspinner').spinner("value", len);
+
+  //-----------
+  $('#pslider').slider("value", peri);	
+	$('#pspinner').spinner("value", peri);
+
+  //-----------
+  $('#acslider').slider("value", a_c);	
+	$('#acspinner').spinner("value", a_c);
+
+	 
+  if(time2 > 0){ t1[0] += off[0];};
+  if(time2 > 0){ t1[1] += off[1];};
+  if(time2 > 0){t1[2] += off[2];};
+  if(time2 > 3){t1[3] += off[3];};
+  if(time2 > 3){t1[4] += off[4];};
+
+  if(v == 10){
+    heat = 50;
+    qtemp = q[0];
+    ktemp = k[0];
+  }
+  else if(v == 20){
+    heat = 60;
+    qtemp = q[1];
+    ktemp = k[1];
+  }
+  else if(v == 30){
+    heat = 70;
+    qtemp = q[2];
+    ktemp = k[2];
+  }
+  else{
+    heat = 0;
+  }
+
+  $('#Heat').spinner("value",heat);
+
+	$('#temp1').spinner("value",t1[0]);
+	
+	$('#temp2').spinner("value", t1[1]);
+
+	$('#temp3').spinner("value", t1[2]);
+
+	$('#temp4').spinner("value", t1[3]);
+
+	$('#temp5').spinner("value", t1[4]);
+
+}
 
 
-    // Values of variables are hardcoded here
-    let liqflow = 10;
-    let massflow = liqflow / 60;
-    let massflow1 = massflow.toFixed(4);
-    let dia = 75 * (10 ** -3);
-    let temp1 = 88;
-    let temp1random = [100, 90, 89, 88]; //to generate random values for temp1
-    let temp2 = 77;
-    let temp2random = [40, 50, 60, 75]; //to generate random values for temp2
-    let tempi = 35;
-    let tempiRandom = [35, 35, 35, 35]; //to generate random values for tempi
-    let tempo = 34;
-    let tempoRandom = [45, 25, 30, 33]; //to generate random values for tempo
 
-    let spHeat = 4187;
-    let deltax = 3 * (10 ** -3);
-    let area = 3.14 * (dia ** 2) / 4;
-    let area1 = area.toFixed(4);
-    let heatLost = (massflow * spHeat * (tempo - tempi)) / 1000;
-    let heatLost1 = heatLost.toFixed(4);
-    let condK = (heatLost) / (area * (temp1 - temp2) / deltax);
-    let condK1 = condK.toFixed(4);
-    let setclikced = 'nope'; //defined to check if set button is clicked and enable or disable the start button
-    let nextclicked = 'nope'; //defined to check if next button is clicked and enable or disable the next button
+// Initialise and Monitor variable containing user inputs of system parameters.
+//change #id and repeat block for new variable. Make sure new <div> with appropriate #id is included in the markup
+function varchange()
+{
+//Variable f slider and number input types
+$('#tinfslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
+$('#tinfspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
+// monitoring change in value and connecting slider and number
+// setting trace point coordinate arrays to empty on change of link length
+$( "#tinfslider" ).on( "slide", function( e, ui ) { $('#tinfspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
+$( "#tinfspinner" ).on( "spin", function( e, ui ) { $('#tinfslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
+$( "#tinfspinner" ).on( "change", function() {  varchange() } );
+
+//-----------------------------//
+//Variable f slider and number input types
+$('#tbslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
+$('#tbspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
+// monitoring change in value and connecting slider and number
+// setting trace point coordinate arrays to empty on change of link length
+$( "#tbslider" ).on( "slide", function( e, ui ) { $('#tbspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
+$( "#tbspinner" ).on( "spin", function( e, ui ) { $('#tbslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
+$( "#tbspinner" ).on( "change", function() {  varchange() } );
+
+//-----------------------------//
+//Variable f slider and number input types
+$('#lslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
+$('#lspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
+// monitoring change in value and connecting slider and number
+// setting trace point coordinate arrays to empty on change of link length
+$( "#lslider" ).on( "slide", function( e, ui ) { $('#lspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
+$( "#lspinner" ).on( "spin", function( e, ui ) { $('#lslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
+$( "#lspinner" ).on( "change", function() {  varchange() } );
+
+//-----------------------------//
+//Variable f slider and number input types
+$('#pslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
+$('#pspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
+// monitoring change in value and connecting slider and number
+// setting trace point coordinate arrays to empty on change of link length
+$( "#pslider" ).on( "slide", function( e, ui ) { $('#pspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
+$( "#pspinner" ).on( "spin", function( e, ui ) { $('#pslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
+$( "#pspinner" ).on( "change", function() {  varchange() } );
 
 
-    // Define an array of image sources
-    const imageSources = [ "images/level2.png", "images/level3.png", "images/level4.png","images/level5.png" ];
-    let currentIndex = 0;
+//-----------------------------//
+//Variable f slider and number input types
+$('#acslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
+$('#acspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
+// monitoring change in value and connecting slider and number
+// setting trace point coordinate arrays to empty on change of link length
+$( "#acslider" ).on( "slide", function( e, ui ) { $('#acspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
+$( "#acspinner" ).on( "spin", function( e, ui ) { $('#acslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
+$( "#acspinner" ).on( "change", function() {  varchange() } );	
 
-    // Define the interval time in milliseconds
-    const intervalTime = 2000; // 2 seconds
-    const blinkTime = 1000; // 0.5 seconds
+}
 
-    voltage.addEventListener('click', () => {
-      
-      console.log('click')
-      console.log("voltage = " + document.getElementById('voltage').value)
-      
-      progress.style.width = '5%';
-      document.getElementById('voltageVal').value = document.getElementById('voltage').value;
-      console.log("voltageval = " + document.getElementById('voltageVal').value);
-      set.disabled = false;
-      set.classList.add('start');
-    })
 
-    set.addEventListener('click', () => {
-      console.log('set');
-      console.log("setclikced :" + setclikced);
 
-      progress.style.width = '10%';
-      set.disabled = true;
-      set.classList.remove('start');
-      start.classList.add('start');
-      setclikced = 'yep';
-      document.getElementById('voltage').disabled = true;
-    })
 
-    let progressWidth = 20
-    start.addEventListener('click', () => {
-      if (setclikced === 'yep') {
-        console.log('actual start');
+// prints comments passed as 'commenttext' in location specified by 'commentloc' in the comments box;
+// 0 : Single comment box, 1 : Left comment box, 2 : Right comment box
+function printcomment(commenttext,commentloc)
+{
+  if(commentloc==0)
+  {
+  document.getElementById('commentboxright').style.visibility='hidden';
+  document.getElementById('commentboxleft').style.width='570px';
+  document.getElementById('commentboxleft').style.textAlign = 'center';
+  document.getElementById('commentboxleft').innerHTML = commenttext;
+  }
+  else if(commentloc==1)
+  {
+  document.getElementById('commentboxright').style.visibility='visible';
+  document.getElementById('commentboxleft').style.width='285px';
+  document.getElementById('commentboxleft').innerHTML = commenttext;
+  }
+  else if(commentloc==2)
+  {
+  document.getElementById('commentboxright').style.visibility='visible';
+  document.getElementById('commentboxleft').style.width='285px';
+  document.getElementById('commentboxright').innerHTML = commenttext;
+  }
+  else
+  {
+  document.getElementById('commentboxright').style.visibility='hidden';
+  document.getElementById('commentboxleft').style.width='570px';
+  document.getElementById('commentboxleft').innerHTML = "<center>please report this issue to adityaraman@gmail.com</center>"; 
+  // ignore use of deprecated tag <center> . Code is executed only if printcomment function receives inappropriate commentloc value
+  }
+}
 
-        start.classList.remove('start');
-        // document.getElementById('restart').style.visibility = "visible";
-        setTimeout(() => {
-          document.getElementById('temp1').value = 88;
-          document.getElementById('temp2').value = 77;
-          document.getElementById('tempi').value = 35;
-          document.getElementById('tempo').value = 34;
-          state = 'started';
-        }, 8001);
+</script>
 
-        // Set the interval to update the image
-        let imageInterval = setInterval(updateImage, intervalTime);
 
-        // Function to update the image source
-        function updateImage() {
-          console.log('updating Image to ' + imageSources[currentIndex])
-          // Update the src attribute with the next image source
-          imgSim.src = imageSources[currentIndex];
-          document.getElementById('temp1').value = temp1random[currentIndex];
-          document.getElementById('temp2').value = temp2random[currentIndex];
-          document.getElementById('tempi').value = tempiRandom[currentIndex];
-          document.getElementById('tempo').value = tempoRandom[currentIndex];
 
-          // Increment the index
-          currentIndex++;
-          progressWidth += 20;
+</head>
+<body onload="editcss(); drawModel(); startsim(); varinit();">
 
-          // Reset the index if it exceeds the array length
-          if (currentIndex >= imageSources.length) {
-            progressWidth = 100;
-            clearInterval(imageInterval);
-            next.src = "images/bluefwddulls.png";
+<!-- DND-Verifying JavaScript is enabled in browser -->
+<noscript>
+The simulation requires JavaScript to be enabled.
+</noscript>
 
-            console.log('next to blink');
+<!-- Defining Container for Simulation -->
+<div id="container">
 
-            next.style.animation = 'blink 1s infinite';
-            nextclicked = 'yep';
-            next.classList.add('next');
-            // document.getElementById('restart').style.visibility = "visible";
-          }
-          progress.style.width = progressWidth + '%';
-        }
+<!-- Replace TITLE with simulation title to be displayed next to logo-->
+<div id="simtitle">Heat Transfer Through A Long Fin</div>
 
-        // Call the updateImage function initially
-        updateImage();
-      }
+<!-- Region for simulation display -->
+<canvas id="simscreen" height="400px" width="550px"  ></canvas>
+<div id="textbox" style="position: absolute; left:330px; top: 435px; width:250px; height:50px; " >
+  <!-- <p style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 13px;';>&nbsp; &nbsp; T1 &nbsp; &nbsp; &nbsp; &nbsp; T2&nbsp; &nbsp; &nbsp; &nbsp; T3&nbsp; &nbsp; &nbsp; &nbsp; T4&nbsp; &nbsp; &nbsp; &nbsp; T5
+  </p> -->
+</div>
+<div id="graph1" style="position: absolute;left:155px; top: 270px; width:300px; height:250px;" ></div>
+<!-- <div id="textbox1" style="position: absolute; left:75px; top: 425px; width:250px; height:50px;" >
+  <p style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 13px; text-align: center;'>Cross Sectional View<br> A-A</p>
+</div> -->
 
-      setclikced = 'nope';
-      console.log("nextclikced :" + nextclikced);
 
-    })
+<!-- Region for calculation visible after onclick switchbutton-->
+<div id="calculation" style="visibility: hidden">
+  <p><i>q<sub>f</sub> = &#177; &radic;(h.P.k.A.(T<sub>b</sub> - T<sub>∞</sub>))<br>
+  <p><b>Heat transfer rate through a long fin, </b></p>
+  <div class="tooltip"><label for="qvalue"><i> q<sub>f</sub> = </i></label><input type="number" id="qvalue" style="width: 125px;"> W <sub>(upto 2 decimal points)</sub>
+    <span class="tooltiptext"><script>
 
-    next.addEventListener('click', () => {
-      if (nextclicked === 'yep') {
-        console.log('next');
-        document.getElementById("grad1").style.visibility = "hidden";
-        document.getElementById("grad2").style.visibility = "hidden";
-        document.getElementById("img-sim1").style.visibility = "hidden";
-        next.style.animation = null;
-        next.classList.remove('next');
+      document.write("q<sub>f</sub> = &#177; &radic; <span style='border-top:1px solid black'>(h.P.k.A)"+"(T<sub>base</sub> - T<sub>∞</sub>)");
 
-        // Replace the content inside the div
-        imgSim.style.display = 'none';
-        results.hidden = false;
 
-        // display the results
-        massflowtxt.innerHTML = "<span>Mass flow rate = 10mL/60s = </span> " + massflow1 + "<span> kg/s</span>";
-        heatlosttxt.innerHTML = "<span>Heat lost </span> = " + heatLost1 + "<span> kW</span>";
-        areatxt.innerHTML = "<span>Area </span> = " + area1 + "<span> m<sup>2</sup></span>";
-        condKtxt.innerHTML = "<span>Conductivity </span> = (q<sub>w</sub>)/(Area*(△T/△X)) = " + condK1 + "<span> W/m<sup>2</sup>K</span>";
-         document.getElementById('restart').style.visibility = "visible";
-
-      };
-
-      nextclicked = 'yep(1)';
-      console.log("nextclicked :" + nextclicked);
-
-    });
-
-    function Refresh() {
-    window.location = window.location.href;
-};
-    function fillWater(){
-      
-      document.getElementById("img-sim1").style.visibility = "visible";
-      setTimeout(function(){
-        document.getElementById("img-sim").style.visibility = "visible";
-        // document.getElementById("img-sim1").style.visibility = "visible";
-        
-                                    document.getElementById("grad1").style.visibility = "visible";
-                                    document.getElementById("grad1").style.animation="moveGrad1 2s forwards";
-                                    setTimeout(function(){
-                                      document.getElementById("grad2").style.visibility = "visible";
-                                      setTimeout(function(){
-                                        document.getElementById("img-sim1").style.animation="moveT 1s forwards";
-                                        setTimeout(function(){
-                                        document.getElementById("grad2").style.animation="moveGrad2 1s forwards";
-
-                                      },500);
-                                      },1800);
-
-                                    },300);     
-      },500);
-    }
+      document.write("");
     </script>
+  </div>
+  <p><input type="button" value="Check" id="qsubmit" style="position: relative; left: 100px;"><span id="symbol1" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span> <span id="symbol2" style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span></p>
+  <div id="answer1"></div>
+
+  <p><b>Temperature at L/2, </b></p>
+  <div class="tooltip"><label for="kValue"><i> T = </i></label><input type="number" id="kvalue" style="width: 125px;">°C 
+    <span class="tooltiptext"><span style="font-size: large;" class="frac">Check the graph at x = L/2</span>
+  </div>
+  
+  <p><input type="button" value="Check" id="ksubmit" style="position: relative; left: 100px;"><span id="symbol3" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span> <span id="symbol4" style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span></p>
+  <div id="answer2"></div>
+  <!-- <p><span style=" color: #028102;">Correct answer</span  ><span style="color: #e7722b"> K = "++" </span></p> -->
+  
+  
+  <div style="position: absolute; top: 2px; left: 245px; width: 300px; height: 30px; font-size: large; text-align: center;"><b>Temperature distribution</b></div>
+  <div style="position: absolute; top: 20px; left: 245px; width: 300px; text-align: center;"> <p><i>T-T<sub>∞</sub></i> = (T-T<sub>b</sub>)*e<sup>-mx</sup><br></div>
+  <div id="graph" style="position: absolute;left:245px; top: 100px; width:300px; height:250px;" >
+  </div>
+</div>
+ 
+</div>
+<div id="titleincanvas">
+ 
+</div>
+
+
+
+<!-- Region for comment / question prompts style="visibility: hidden";-->
+<div id="commentboxleft"></div>
+<div id="commentboxright"></div>
+
+<!-- DND-Title of region for variables display --> 
+<div id="vartitle">VARIABLES</div>
+
+<!-- Region for Input parameters of simulation -->
+<div id="variables">
+
+<!-- System variable input from user through slider and spinner jQuery widgets 
+repeat block with new variable name and new id for widgets-->
+
+
+
+<div class="variable">
+	<div class="varname"><p title="Link Length">T<sub>∞</sub>(°C)</p>
+		<input id="tinfspinner"></input></div>
+	<div id="tinfslider"></div>
+</div>
+
+<div class="variable">
+	<div class="varname"><p title="Link Length">T<sub>base</sub>(°C)</p>
+		<input id="tbspinner"></input></div>
+	<div id="tbslider"></div>
+</div>
+
+<div class="variable">
+	<div class="varname"><p title="Link Length">L (mm)</p>
+		<input id="lspinner"></input></div>
+	<div id="lslider"></div>
+</div>
+
+<div class="variable">
+	<div class="varname"><p title="Link Length">P (mm)</p>
+		<input id="pspinner"></input></div>
+	<div id="pslider"></div>
+</div>
+
+
+<div class="variable">
+	<div class="varname"><p title="Link Length">A (mm<sup>2</sup>)</p>
+		<input id="acspinner"></input></div>
+	<div id="acslider"></div>
+</div>
+</div>
+
+<!-- DND-Title of region for controls display -->
+<div id="ctrltitle">CONTROLS</div>
+
+<!-- Region for User controls of simulation -->
+<div id="controls">
+    <img id="playpausebutton" onclick="simstate()" src="./images/blueplaydull.png" />
+    <img id="rotationbutton" onclick="rotstate()" src="./images//restartdull.png" />
+    <img id="switchbutton" onclick="switchscreen()" src="./images//bluefwddulls.png" />
+    <!--
+<div class="usercheck">
+<!-- Point tracing
+<input type="checkbox" id="trace" ></input> <p>Trace Mid Point</p>
+<!-- Reset Parameters
+<input type="button" id="resetparams" value="Reset" onclick="varinit();"></input> -->
+</div>
+
+
+<!-- DND-Copyright display-->
+<div id="copyright" title="Developer : Prasad_mandave"> Copyright &copy; SOLVE The Virtual Lab @ NITK Surathkal </div>
+
+</div><!-- Container div close -->
+
+<!-- For trials during development
+write in trythis() function the outputs that you want to check.
+<input type='button' onclick='trythis()' value="try me"></input> 
+-->
+
+
 
 </body>
-
-</html>
+</html>   

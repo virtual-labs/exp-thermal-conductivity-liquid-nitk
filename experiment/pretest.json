@@ -2,12 +2,29 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "Which of the following statements correctly describes the thermal conductivity of liquids?",
+      "question": "The rate of heat transfer through a long fin is influenced by its:",
       "answers": {
-        "a": "Liquids have higher thermal conductivity than gases.",
-        "b": "Liquids have lower thermal conductivity than gases.",
-        "c": "The thermal conductivity of liquids is independent of temperature.",
-        "d": "The thermal conductivity of liquids is primarily affected by their viscosity."
+        "a": " Length and thickness",
+        "b": "Material Composition",
+        "c": "Temperature Difference",
+        "d": "All the above"
+      },
+      "explanations": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": ""
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "The temperature distribution along a long fin is given by the equation T = (T<sub>0</sub> - T<sub>∞</sub>)*e<sup>(-mx)</sup>, where T<sub>0</sub> is the base temperature, T<sub>∞</sub> is the surrounding temperature, m is a constant, and x is the distance from the base of the fin. If m increases, what happens to the temperature drop along the length of the fin?",
+      "answers": {
+        "a": "The temperature drop increases.",
+        "b": "The temperature drop decreases.",
+        "c": "The temperature drop remains the same.",
+        "d": "It cannot be determined from the information given."
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -15,16 +32,16 @@
         "c": "Explanation 2",
         "d": "Explanation 2"
       },
-      "correctAnswer": "b",
+      "correctAnswer": "a",
       "difficulty": "intermediate"
     },
     {
-      "question": "What is the primary mechanism of heat transfer in liquids?",
+      "question": "A long fin is made of two materials, with different thermal conductivities. The heat transfer coefficient on the fin surface is the same for both materials. If the length of the fin is the same for both materials, which material will have the higher heat transfer rate?",
       "answers": {
-        "a": "Conduction",
-        "b": "Convection",
-        "c": "Radiation",
-        "d": "Advection"
+        "a": "The material with the higher thermal conductivity.",
+        "b": "The material with the lower thermal conductivity.",
+        "c": "It cannot be determined from the information given.",
+        "d": "All of the above"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -36,12 +53,12 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Which of the following factors generally increases the thermal conductivity of liquids?",
+      "question": "What is the main purpose of fins in heat transfer?",
       "answers": {
-        "a": "Higher viscosity",
-        "b": "Lower temperature",
-        "c": "Increased pressure",
-        "d": "Greater molecular size"
+        "a": "To decrease the thermal conductivity of the material",
+        "b": "To prevent heat loss",
+        "c": "To increase the surface area for convection",
+        "d": "None of the above"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -53,12 +70,12 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "Which liquid is expected to have the highest thermal conductivity?",
+      "question": "Why is it important to consider the variation of the convection heat transfer coefficient along the fin in the analysis of fins?",
       "answers": {
-        "a": "Water",
-        "b": "Ethanol",
-        "c": "Olive oil",
-        "d": "Mercury"
+        "a": "Because the convection heat transfer coefficient is a strong function of the fluid motion at that point",
+        "b": "Because the value of h is usually much lower at the fin base than it is at the fin tip",
+        "c": "All the above",
+        "d": "None of the above"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -66,24 +83,7 @@
         "c": "Explanation 2",
         "d": "Explanation 2"
       },
-      "correctAnswer": "d",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "How does the thermal conductivity of liquids typically change with increasing temperature?",
-      "answers": {
-        "a": "It decreases",
-        "b": "It increases",
-        "c": "It remains constant",
-        "d": "It depends on the liquid"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
+      "correctAnswer": "c",
       "difficulty": "beginner"
     }
   ]
