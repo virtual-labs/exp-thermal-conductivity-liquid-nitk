@@ -2,12 +2,80 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "Which type of liquid is generally expected to have the highest thermal conductivity?",
+      "question": "The rate of heat transfer from a fin is directly proportional to:",
       "answers": {
-        "a": "Nonpolar liquids",
-        "b": "Polar liquids",
-        "c": "Organic liquids",
-        "d": "Aqueous solutions"
+        "a": "The fin's temperature",
+        "b": "The fin's surface area",
+        "c": "The fin's color",
+        "d": "The fin's thickness"
+      },
+      "explanations": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": ""
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "A long fin is made of copper with a thermal conductivity of 400 W/mK. The fin is 10 cm long and has a cross-sectional area of 1 cm2. The heat transfer coefficient on the fin surface is 20 W/m2K. If the base temperature of the fin is 100°C, what is the heat transfer rate through the fin?",
+      "answers": {
+        "a": "200 W",
+        "b": "400 W",
+        "c": "600 W",
+        "d": "800 W"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "How does the thermal conductivity of liquids compare to that of solids?",
+      "answers": {
+        "a": "1 cm",
+        "b": "3 cm",
+        "c": "4 cm",
+        "d": "5 cm"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "d",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "The heat transfer rate through a long fin is 100 W. The thermal conductivity of the fin material is 200 W/mK. The heat transfer coefficient on the fin surface is 20 W/m2K. If the base temperature of the fin is 100°C, what is the temperature at the tip of the fin?",
+      "answers": {
+        "a": "20°C",
+        "b": "40°C",
+        "c": "60°C",
+        "d": "80°C"
+      },
+      "explanations": {
+        "a": "Explanation 1  <a href='www.google.com'>here</a>",
+        "b": "Explanation 2",
+        "c": "Explanation 2",
+        "d": "Explanation 2"
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is one of the assumptions made in the analysis of fins?",
+      "answers": {
+        "a": "Constant thermal conductivity of the material",
+        "b": "Constant and uniform convection heat transfer coefficient over the entire surface of the fin",
+        "c": "Steady operation with no heat generation in the fin",
+        "d": "All of the above"
       },
       "explanations": {
         "a": "Explanation 1  <a href='www.google.com'>here</a>",
@@ -17,74 +85,6 @@
       },
       "correctAnswer": "d",
       "difficulty": "beginner"
-    },
-    {
-      "question": "How does the thermal conductivity of liquids compare to that of solids?",
-      "answers": {
-        "a": "Liquids have higher thermal conductivity than solids.",
-        "b": "Liquids have lower thermal conductivity than solids.",
-        "c": "Liquids have similar thermal conductivity as solids.",
-        "d": "The thermal conductivity of liquids varies widely, so no generalization can be made."
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "Which of the following liquids is expected to have the lowest thermal conductivity?",
-      "answers": {
-        "a": "Acetone",
-        "b": "Ethylene glycol",
-        "c": "Liquid nitrogen",
-        "d": "Benzene"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "c",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "How does the thermal conductivity of liquids typically change with increasing viscosity?",
-      "answers": {
-        "a": " It decreases",
-        "b": "It increases",
-        "c": "It remains constant",
-        "d": "It depends on the liquid"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
-      "difficulty": "advanced"
-    },
-    {
-      "question": "Which factor does NOT significantly affect the thermal conductivity of liquids?",
-      "answers": {
-        "a": "Density",
-        "b": "Molecular size",
-        "c": "Surface tension",
-        "d": "Electrical conductivity"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "c",
-      "difficulty": "intermediate"
     }
   ]
 }

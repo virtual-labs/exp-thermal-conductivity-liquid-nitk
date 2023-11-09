@@ -8,17 +8,13 @@
 
 ### Lab Developers:
 
-| SNo. |               Name                | Institute |
-| :--: | :-------------------------------: | :-------: |
-|  1   |        Preetham G 211me337        |   NITK    |
-|  2   | Anish Devendra Kumbhar \_211cs229 |   NITK    |
-|  3   |             Prajna K              |   NITK    |
-|  4   |              Akshaya              |   NITK    |
-|  5   |          Anusha B Salian          |   NITK    |
+| SNo. |              Name               | Institute |
+| :--: | :-----------------------------: | :-------: |
+|  1   | Vincent Paul Veernapu, 201ME365 |   NITK    |
 
 ### Content Developers:
 
-| SNo. |        Name         | Institute |
-| :--: | :-----------------: | :-------: |
-|  1   |   Nagaraj Kamath    |   NITK    |
-|  2   | Preetham G 211me337 |   NITK    |
+| SNo. |              Name               | Institute |
+| :--: | :-----------------------------: | :-------: |
+|  1   | Vincent Paul Veernapu, 201ME365 |   NITK    |
+|  2   |         Nagaraj Kamath          |   NITK    |

@@ -1,1 +1,1 @@
-## Thermal Conductivity of Liquid
+## Heat Transfer through a Long Fin

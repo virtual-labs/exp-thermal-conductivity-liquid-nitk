@@ -6,18 +6,12 @@
   <tr style="background-color: white">
     <td>
     <ol>
-    <li>Holman J. P., Heat Transfer, McGraw Hill Publication, 8th Edition, 1996.</li>
-    <li>C. P. Arora, Engineering Heat Transfer, Khanna Publishers, India, 1996.</li>
+    <li>NITK lab manual
     <td>Developer : Dr. K V Gangadharan | NITK</br></br>
     Contributors :
-    <ul style="list-style-type: none;">
-    <li>Nagaraj Kamath | NITK</li>
-    <li>Preetham G | 211me337 | NITK </li>
-    <li>Anish Devendra Kumbhar | 211cs229 | NITK    </li>
-    <li>Prajna K | NITK</li>
-    <li>Akshaya | NITK </li>
-    <li>Anusha B Salian | NITK</li>
-     </ul></td>
+        <ul style="list-style-type: none;">
+    <li>Vincent Paul Veernapu | 201ME365 | NITK</li>
+    <li>Nagaraja Kamath| 227ME004| NITK <li>
      </ul></td>
   </tr>
 </table>
