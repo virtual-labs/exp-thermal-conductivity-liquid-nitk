@@ -1,16 +1,13 @@
 #### These procedure steps will be followed on the simulator
 
-1. The following slide appears after clicking on the simulation.<br>
+1. The following slide appears after clicking on the simulation, vary the different parameters in the variables section.<br>
 
-![alt text](images/img1.png)<br>
+   ![Alt text](images/proc1.png)
 
-2. Vary the different parameters in the variables section .<br>
+2. Click play, wait for 5 seconds to reach the steady state, and click next.<br>
 
-![alt text](images/img2.png)<br>
+   ![Alt text](images/proc2.png)
 
-3. Wait for 5 seconds to reach the steady state and note down the values. Click next.<br>
+3. Finally, check the calculated values by entering them in their respective boxes. Click back if you want to go back to the previous slide. <br>
 
-![alt text](images/img3.png)<br>
-
-4. Finally , check the calculated values by entering them in their respective boxes. Click back if you want to go back to previous slide. <br>  
-   ![alt text](images/img4.png)<br>
+   ![Alt text](images/proc3.png)
