@@ -1,0 +1,669 @@
+div#container 
+{
+	width: 800px;
+	height: 600px;
+	background: url("../images/frame_copper_ver02.png") no-repeat;
+}
+
+div#simtitle
+{
+	position:absolute;
+	left:100px;
+	top:25px;
+	height: 40px;
+	width: 650px;
+	text-align: center;
+	font-size: 36px;
+	font-family: Comic Sans MS;
+}
+
+div#vartitle
+{
+	position:absolute;
+	left:629px;
+	top:100px;
+	height: 25px;
+	width: 150px;
+	text-align: center;
+	font-size: 16px;
+	font-family: Comic Sans MS;
+}
+
+div#ctrltitle
+{
+	position:absolute;
+	left:629px;
+	top:477px;
+	height: 22px;
+	width: 150px;
+	text-align: center;
+	font-size: 16px;
+	font-family:Comic Sans MS;
+}
+
+div#copyright
+{
+	position:absolute;
+	top:585px;
+	height: 10px;
+	width: 800px;
+	text-align: center;
+	font-size: 12px;
+	font-family:Comic Sans MS;
+}
+#tabchangeforward
+{
+	position: absolute;
+	left:110px;
+	top:90px;
+}
+#tabchangebackward
+{
+	position: absolute;
+	left: 45px;
+	top: 90px;
+
+}
+#screenchangesforward
+{
+  position: absolute;
+  left: -50px;
+  top:90px;
+}
+#screenchangesbackward
+{
+position: absolute;
+  left: -90px;
+  top:90px;
+}
+#startExperiment,#stopExperiment,#resetExperiment
+{
+  position: relative;
+  left:25px;
+  /* top:10px; */
+  margin:2px;
+  display:none;
+}
+#experiments{
+	position: absolute;
+	left:120px;
+	top:150px;
+	font-size:20px;
+	font-family:Comic Sans MS;
+	display:none;
+	/* background-color:white; */
+}
+#questionsAcc,#questionsOffset,#questionsForce{
+	position: absolute;
+	left:30px;
+	top:450px;
+	font-size:20px;
+	font-family:Comic Sans MS;
+	display:none;
+}
+#axisPos{
+	position: relative;
+	left:180px;
+	top:5px;
+	font-size:14px;
+	font-family:Comic Sans MS;
+	padding-left:10px;
+}
+#offLink{
+	position: relative;
+	left:120px;
+	top:5px;
+	font-size:14px;
+	font-family:Comic Sans MS;
+	padding-left:10px;
+}
+#forcAxisPos{
+	position: relative;
+	left:180px;
+	top:5px;
+	font-size:14px;
+	font-family:Comic Sans MS;
+	padding-left:10px;
+}
+#stopExperiment,#resetExperiment{
+	display:none;
+}
+#axisPos input[type="text"]{
+	width:30px;
+}
+#offLink input[type="text"]{
+	width:30px;
+}
+#forcAxisPos input[type="text"]{
+	width:30px;
+}
+.fontClass{
+	font-family:Comic Sans MS;
+}
+ul li{
+	list-style-type: none;
+	margin-top:-4px;
+	padding:4px;
+	margin-left: -29px;
+}
+canvas#simscreen2
+{
+	position:absolute;
+	left:30px;
+	top:250px;
+	height: 400px;
+	width: 550px;
+}
+
+canvas#simscreen
+{
+	position:absolute;
+	left:30px;
+	top:60px;
+	height: 400px;
+	width: 550px;
+    z-index: -1;
+}
+
+div#calculation{
+	position: absolute;
+	top: 100px;
+	left: 30px;
+	height: 400px;
+	width: 550px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+
+}
+
+canvas#zoomScreen
+{
+	position:absolute;
+	left:30px;
+	top:100px;
+	height: 400px;
+	width: 550px;
+	visibility: hidden;
+}
+/* div#commentboxcorrect
+{
+	list-style: none;
+	border-top-width: 2px;
+	border-top-color: #f6ebed;
+	position:absolute;
+	left:30px;
+	top:480px;
+	height: 65px;
+	width: 285px;
+	color: green;
+	text-align: left;
+	font-size: 15px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+div#commentboxleft
+{
+	border-top: 1px dotted #e7722b;
+	border-right: 1px dotted #e7722b;
+	border-top-width: 2px;
+	border-top-color: #f6ebed;
+	position:absolute;
+	left:19px;
+	top:480px;
+	height: 140px;
+	width: 100%;
+	color: #e7722b;
+	text-align: left;
+	font-size: 13px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+} */
+
+/* div#commentboxright
+{	border-top: 1px dotted #e7722b;
+	border-top-width: 2px;
+	border-top-color: #f6ebed;	
+	border-left-width: 2px;
+	border-left-color: #f6ebed;
+	position:absolute;
+	left:335px;
+	top: 480px;
+	height: 140px;
+	width: 50%;
+	color: #e7722b;
+	text-align: left;
+	font-size: 13px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+} */
+div#commentboxcorrect {
+	border-top-width: 2px;
+	border-top-color: #f6ebed;
+	position: absolute;
+	left: 30px;
+	top: 480px;
+	height: 65px;
+	width: 285px;
+	color: green;
+	text-align: left;
+	font-size: 15px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+  }
+  
+  div#commentboxleft {
+	border-top: 1px dotted #e7722b;
+	border-right: 1px dotted #e7722b;
+	position: absolute;
+	left: 26px;
+	top: 499px;
+	height: 74px;
+	width: 314px;
+	color: #e7722b;
+	text-align: left;
+	font-size: 13.5px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+  }
+
+div#commentboxright {
+	border-top: 1px dotted #e7722b;
+	position: absolute;
+	left: 340px;
+	top: 499px;
+	height: 74px;
+	width: 261px;
+	color: #e7722b;
+	text-align: left;
+	font-size: 13.5px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+  }
+div#variables
+{
+	position:absolute;
+	left:610px;
+	top:120px;
+	height: 285px;
+	width: 175px;
+}
+
+div#controls
+{
+	position:absolute;
+	left:607px;
+	top:435px;
+	height: 140px;
+	width: 175px;
+}
+
+#start
+{
+	position: inherit;
+	left: 20px;
+	top: 80px;
+
+}
+
+#rotationbutton
+{
+	position: relative;
+	left: 60px;
+	top: 81px;
+
+}
+
+#next{
+	position: relative;
+	left: 76px;
+	top: 80px;
+}
+
+.variable1
+{
+	position: relative;
+	left: 15px;
+	width: 150px;
+	margin-top: 20px;
+}
+.variable2
+{
+	position: relative;
+	left: 15px;
+	width: 150px;
+	margin-top: 20px;
+}
+
+.variable3
+{
+	position: relative;
+	left: 15px;
+	width: 150px;
+	margin-top: 20px;
+}
+
+.variable4, .variable5
+{
+	position: relative;
+	left: 15px;
+    margin-top: 20px;
+	width: 150px;
+}
+
+#temp1, #temp2, #tempo, #tempi, #voltageVal
+{
+	width: 40px;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+	margin: 0 5px;
+}
+
+#voltageVal {
+	width: 40px;
+    border: none;
+    margin: 1em 4em;
+}
+
+#voltage {
+	width: 100% !important;; 
+}
+
+
+.varname
+{
+	position: relative;
+	font-size: 14px;
+	display: inline;
+}
+
+.varname p {
+	position: relative;
+	top:1px;
+	padding: 0;
+	font-family: Comic Sans MS;
+	font-size: 1.1em;	
+	display: inline;
+}
+
+.usercheck
+{
+	position: relative;
+	left: 40px;
+	top: 10px;
+	padding-top: 15px;
+	height: 20px;
+	width: 125px;
+}
+.usercheck p {
+	position: relative;
+	margin: 0;
+	font-size: 12px;
+	vertical-align: middle;
+	display: inline-block;
+}
+.usercheck input {
+	position: relative;
+	top:2px;
+	margin: 0;	
+}
+.usercheck #resetparams {
+	position: relative;
+	left: 38px;	
+	margin-top: 3px;
+}
+
+#quickreficon {
+	background-image: url("../images/quickreficon.png");
+	position: absolute;
+	left: 571px;
+	top: 475px;
+	height: 24px;
+	width: 24px;
+	border : double;	
+}
+#legendicon {
+	background-image: url("../images/legendicon.png");
+	position: absolute;
+	left: 571px;
+	top: 446px;
+	height: 24px;
+	width: 24px;	
+	border : double;
+}
+#quickref {
+	position: absolute;
+	left: 600px;
+	top: 225px;
+	height: 100px;
+	width: 0px;
+	border : solid 0px;	
+	z-index: 99;
+	overflow: hidden;
+}
+#legend {
+	position: absolute;
+	left: 300px;
+	top: 95px;
+	height: 0px;
+	width: 100px;
+	border : solid 0px;	
+	z-index: 100;
+	overflow: hidden;
+}
+
+.datatable{
+	width: 140px;
+	font-size: 11px;
+	text-align: center;
+}
+.datatable table{
+	border:1px solid #000011;
+	border-collapse: collapse;
+	width:120px;
+}
+.datatable th{
+	border:1px solid #000011;
+	width:52px;
+}
+.datatable td{
+	border:1px solid #000011;
+	width: 52px;
+}
+.datatable p{
+   position: relative;
+   font-size: 12px;
+   left: -10px;
+}
+
+#titleincanvas
+{
+	position: absolute;
+	left: 250px; top:100px;
+	font-family:"Comic Sans MS";
+}
+
+.img-zoom-container {
+  position: absolute;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  position:absolute;
+  left:50px;
+  top:350px;
+  width: 50px;
+  height: 50px;
+  z-index: -5;
+}
+.varname
+{
+	position: relative;
+	font-size: 14px;
+	display: inline;
+}
+
+.varname p {
+	position: relative;
+	top:1px;
+	padding: 0;
+	font-family: Comic Sans MS;
+	font-size: 1.1em;	
+	display: inline;
+}
+
+.observation {
+    display : none;
+    height: 400px;
+    width: 600px;
+    position: absolute;
+    background-color: rgb(255, 154, 99);
+    top: 10px;
+    left: 45px;
+    border: black solid;
+    border-width: 3px;
+    z-index: 7;
+  }
+  .tablediv {
+    height: 360px;
+    justify-content: center;
+    display: flex;
+    overflow-y: hidden;
+  }
+  
+  .observationTable {
+    border-collapse: collapse;
+    width: 95%;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    height: min-content;
+    background-color: white;
+  }
+  
+  .observation td,
+  th {
+    border: 2px solid #000000;
+    text-align: center;
+    padding: 2px;
+  }
+  
+  .tableObservation {
+    display: flex;
+    height: 40px;
+    width: 100%-10px;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  #img-sim {
+	position: relative;
+    width: 44%;
+    top: 20%;
+    left: 15%;
+    margin: 7em 1em 1em 3em;
+  }
+  #img-sim1 {
+	position: absolute;
+    width: 17px;
+    top: 389px;
+    left: 479px;
+    /* margin: 7em 1em 1em 3em; */
+  }
+
+  /* gives blinking alimation to buttons */
+  @keyframes blink {
+	0% {
+	  opacity: 100%;
+	}
+	50% {
+		opacity: 50%;
+	}
+	100% {
+		opacity: 100%;
+	}
+  }
+  
+  
+  .start, .next {
+	animation-name: blink;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+  }
+  
+  #set {
+	padding: 3px;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  input {
+	 text-align: center;  /*Aligns content in center*/
+  } 
+
+  #results {
+	position: absolute;
+    top: 21%;
+    left: 7%;
+  }
+
+/* Remove arrow in inputs for Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#grad1 {
+	height: 20px;
+	background-image: linear-gradient(
+	  to right,
+  
+	  #119EFF,
+	  #119EFF
+	 
+	);
+  }
+  #grad2 {
+	height: 20px;
+	background-image: linear-gradient(
+	  to right,
+  
+	  #119EFF,
+	  #119EFF
+	 
+	);
+  }
+  @keyframes moveGrad1 {
+	0% {
+		left: 239px; top:429px;
+	}
+   
+	100% {
+	  left: 239px; top:263px; height: 186px;
+	}
+  }
+  @keyframes moveT {
+	0% {
+		top: 389px;
+    left: 479px;
+	}
+   
+	100% {
+		top: 372px;
+		left: 479px; 
+	}
+  }
+  @keyframes moveGrad2 {
+	0% {
+		left: 414px; top:393px;
+	}
+   
+	100% {
+		left: 453px; top:393px;
+	}
+  }
