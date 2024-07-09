@@ -1,665 +1,248 @@
 <!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-<meta charset="UTF-8">
-
-<title>SOLVE - Heat Transfer - Heat through a Long Fin</title>
-
-<!-- DND-Required css and js files -->
-<link rel="stylesheet" href="./css/MOMstyle.css" />
-<script src='./js/jquery.min.js'></script>
-<script src='./js/jquery-ui.min.js'></script>
-<script type="text/javascript" src= "./js/MOMscript.js"></script>
-<script src="./js/graph.ob.js"></script>
-<script src="./js/graph_use.ob.js"></script>
-<script src="./js/graph_use2.ob.js"></script>
-<link href="./css/mathstyle.css" rel="stylesheet" /><!--Stylesheet to display Math functions -->
-
-<script type="text/javascript" src= "./js/MOMscript.js"></script>
-<script type="text/javascript" >
-//Script specific to simulation
-
-//controls section
-var v = 0;
-var tinf = 27; //Celsuis
-var tbase = 30; //Celsuis
-var len = 20; //Meter
-var peri = 5; //Perimeter
-var a_c = 25; //Area of cross section
-var h_coeff = 100; //Convection coeff
-var k = 201;
-var qfin = 0;
-var t_l2 = 0;
-
-
-ktemp// var m = 5;
-
-//comments section
-var commenttext="Some Text";
-var calctext = "some Text";
-var commentloc=0;
-
-//graphics section
-var canvas;
-var ctx;
-
-//timing section
-var simTimeId = setInterval("",'1000');
-var TimeInterval = setInterval("",'1000');
-var TimeInterval1 = setInterval("",'1000');
-var time=0;
-var time1 = 0;
-var time2 = 0;
-
-//point tracing section and initial(atmospheric section)
-var t1 = [26, 28.1, 26.5, 27, 27.2];
-var off = [0,0,0,0,0];
-var q = [43.36, 43.71, 43.84];
-var qtemp = 1;
-var ktemp = 1;
-var th = [45,45,45,45,45];
-
-
-
-//temporary or dummy variables for locking buttons 
-var temp=0;
-var temp1 = 2;
-var temp2 = 0;
-
-/*
-// for trials during development
-function trythis()
-{ 		alert();}
-*/
-
-//change simulation specific css content. e.g. padding on top of variable to adjust appearance in variables window
-function editcss()
-{
-$('.variable').css('padding-top','20px');
-$('#datatable1').css('position','absolute');
-$('#datatable2').css('position','absolute');
-$('#datatable1').css('left','120px');
-$('#datatable1').css('top','340px');
-$('#datatable2').css('left','395px');
-$('#datatable2').css('top','340px');
-
-
-}
-
-
-//start of simulation here; starts the timer with increments of 0.1 seconds
-function startsim()
-{
-	simTimeId=setInterval("time=time+0.1; comment1(); ",'100');
-}
-
-// switches state of simulation between temp 0:Playing & 1:Paused
-function simstate()
-{
-  if (temp == 1){
-
-    var imgfilename=document.getElementById('playpausebutton').src;
-    imgfilename = imgfilename.substring(imgfilename.lastIndexOf('/') + 1, imgfilename.lastIndexOf('.'));
-      if (imgfilename=="blueplaydull")
-      {
-        time=0;	
-        document.getElementById('playpausebutton').src="./images//bluepausedull.png";
-        temp = 0;
-        temp1 = 1;
-        offset();
-      
-        TimeInterval = setInterval("time1 = time1 + .1; simperiod();",'100'); 
-        TimeInterval1 = setInterval("time2 = time2 + 1; varinit()", '1000');
-    } 
-  }
-  calc("short_insulated");
-}
-//restart simulation temp1 == 0: can restart experienment and variable initilization
-function rotstate(){
-  if(temp1 == 0){
-    temp2 = 0; temp1 = 2;
-    t1 = [26, 28.1, 26.5, 27, 27.2];
-    th = [45,45,45,45,45];
-    v=0;
-    varinit();
-    startsim();
-    drawModel();
-    $("#vspinner").spinner({disabled : false});
-    //$("#vfspinner").spinner({disabled : false});
-    $("#vslider").slider({disabled : false});
-    //$("#vfslider").slider({disabled : false});
-  }
-} 
-
-
-//offset for thermometer and temp change 
-function offset(){
-  if(v == 10){
-    //path = "./images//V1.jpg";
-    off[0] = 23.4;
-    off[1] = 22.58;
-    off[2] = 22.9;
-    off[3] = 6.5;
-    off[4] = 5.9;
-  }
-  else if(v == 20){
-    //path = "./images//V2.jpg";
-    off[0] = 24;
-    off[1] = 22.98;
-    off[2] = 23.3;
-    off[3] = 7;
-    off[4] = 6.9;
-  }
-  else if(v == 30){
-    //path = "./images//V3.jpg";
-    off[0] = 24.2;
-    off[1] = 23.18;
-    off[2] = 23.7;
-    off[3] = 7.5;
-    off[4] = 7.4;
-  }
-}
-//water temperature changes
-// function watertemp(){
-//   switch(vf){
-//     case 5:t1[6] += 5.4;break;
-//     case 10:t1[6] += 2.4;break;
-//     case 15:t1[6] += 1.4;break;
-//     case 20:t1[6] += 0.4;break;
-//   }
-// }
-    
-//stops simulations
-function simperiod(){
-  if(time1 >= 5.0){
-    clearInterval(TimeInterval);
-    clearInterval(TimeInterval1);
-    time1 = 0;
-    time2 = 0
-    temp1 = 0;
-    temp2 = 1;
-    document.getElementById('playpausebutton').src="./images//blueplaydull.png";
-    //watertemp();
-     printcomment("", 2);
-
-  }
-  else{
-    drawGradient();
-    printcomment("Wait till countdown reaches 0  ["+ (5 - Math.round(time1)) + " seconds left]", 2);
-  }
-  if (tbase < tinf) {
-    printcomment("<strong>T<sub>base</sub> adjusted to <strong>" + (Math.round(tinf+5)), 2)
-  }
-}
-//switch screen here temp2 = 1: can switch; else it locks  
-function switchscreen(){
-  if(temp2 == 1){
-    var imgfilename=document.getElementById('switchbutton').src;
-    imgfilename = imgfilename.substring(imgfilename.lastIndexOf('/') + 1, imgfilename.lastIndexOf('.'));
-    if(imgfilename=="bluefwddulls"){
-      temp1 = 1;
-      document.getElementById('switchbutton').src="./images//bluebkdulls.png";
-      document.getElementById('calculation').style.visibility = "visible";
-      document.getElementById('simscreen').style.visibility = "hidden";
-      document.getElementById('textbox').style.visibility = "hidden";
-      document.getElementById('textbox1').style.visibility = "hidden";
-      printcomment("<i>h(Convection Coefficient)</i> d1 = 45mm d2 = 75mm<br><i> Length of pipe</i> = 500mm<br><i>K</i>  = 0.069 W/m.K", 0);
-      calc(opt);
-    }
-    if(imgfilename=="bluebkdulls"){
-      temp1 = 0;
-      document.getElementById('switchbutton').src = "./images//bluefwddulls.png";
-      document.getElementById('calculation').style.visibility = "hidden";
-      document.getElementById('simscreen').style.visibility = "visible";
-      document.getElementById('textbox').style.visibility = "visible";
-      document.getElementById('textbox1').style.visibility = "visible";
-      temp2 =1;
-      printcomment("<i>h(Convection Coefficient)</i> d1 = 45mm d2 = 75mm<br><i> Length of pipe</i> = 500mm<br><i>K</i>  = 0.069 W/m.K", 1);
-      $("#symbol1").attr("style", "visibility:hidden");
-      $("#symbol2").attr("style", "visibility:hidden");
-      $("#symbol3").attr("style", "visibility:hidden");
-      $("#symbol4").attr("style", "visibility:hidden");
-      content = '';
-      $("#answer1").html(content);
-      $("#answer2").html(content);
-      
-      
-    } 
-  }
-}
-
-//Calculations of the experienment
-function calc(opt){
-  //variables calculations
-  
-  var m= Math.sqrt((h_coeff*peri)/(k*a_c));
-  // console.log(h_coeff)
-  // console.log(k)
-  // console.log(peri)
-  // console.log(a_c)
-  // console.log(m)
-  var datapoints = [];
-  var datapoints_1 = [];
-  var thetha_b = tbase-tinf;
-  if(opt=="short_insulated")
-  {
-    for(var i=0; i<=len; i++)
-    {
-        y = thetha_b * Math.exp(-m * i);
-        z = y + tinf;
-        // y = Math.round(y * 10)/10;
-        datapoints.push({x:i, y:z});
-    }
-  }
-  q_fin = Math.sqrt(h_coeff * peri * a_c * k ) * (thetha_b);
-  q_fin = q_fin.toFixed(2);
-  t_l2 = tinf + (thetha_b) * Math.exp(-m * (len / 2)).toFixed(2);
-  console.log(q_fin)
-  console.log(t_l2)
-  drawgraph("graph", datapoints, "x in mm", "Temperature profile(T(x))");
-  // drawgraph("graph1", datapoints_1, "x in mm", "Temperature profile(T)");
-
-  $("#qsubmit").click(function(){
-    $("#symbol2").attr("style", "visibility:hidden");
-    $("#symbol1").attr("style", "visibility:hidden");
-
-    if($("#qvalue").val() == q_fin){
-      $("#symbol2").attr("style", "visibility:visible; color: #028102;");
-      var content = '';
-    }
-    else{
-      $("#symbol1").attr("style", "visibility:visible; color:red;");
-      var content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> <i> q<sub>f</sub> = '+q_fin+'</span> W';
-        
-    }
-    $("#answer1").html(content);
-  });
-
-  $("#ksubmit").click(function(){
-    $("#symbol4").attr("style", "visibility:hidden");
-    $("#symbol3").attr("style", "visibility:hidden");
-
-    if($("#kvalue").val() == t_l2){
-      $("#symbol4").attr("style", "visibility:visible; color:#028102;");
-      var content = '';
-    }
-    else{
-      $("#symbol3").attr("style", "visibility:visible; color:red;");
-      var  content = '<p><span style=" color: #028102;">Correct answer</span> <span style="color: #e7722b;"> T = '+t_l2+'</span> ';
-    }
-    $("#answer2").html(content);
-  });
-}
-
-//draw gradient w.r.t. time in thermometer water flow and heater
-function drawGradient(){
-
-  //heater simulation
-  var h = 100*time1;
-  //create gradient
-  var grd1 = ctx.createLinearGradient(0, 0, h, 0)
-  grd1.addColorStop(0,"red");
-  grd1.addColorStop(1,"pink");
-  // Fill with gradient
-  ctx.fillStyle = grd1;
-  ctx.fillRect(100, 137, 295, 35);
-   
-   
-}
-
-// initial model 
-function drawModel()
-{
-  canvas = document.getElementById("simscreen");
-  ctx = canvas.getContext("2d");
-  ctx.clearRect(0,0,250,400);  //clears the complete canvas#simscreen everytime
-  
-  var background = new Image();
-  background.src = "./images//model4.png";
-
-  // Make sure the image is loaded first otherwise nothing will draw.
-  background.onload = function(){
-    ctx.drawImage(background, 50, 50, 400, 200); 
-    //ctx.clearRect(78, 210, 46, 64);
-    ctx.font = "15px Comic San MS";
-
-    ctx.fillStyle = "black";
-   ctx.lineJoin = "round";
-
-   ctx.rect(100, 137, 295, 35);
-   ctx.stroke();
-
- 
-    drawGradient();
-    printcomment("\th =100 W/m<sup>2</sup>.K<br>\t<i>K</i>  = 201 W/m.K", 1)
-  }
-}
-  
-
-//check wether a voltage and water flow is selected
-function comment1(){
-  $( "#tinfspinner" ).spinner({change:function() { tinf = $("#tinfspinner").spinner("value"); } });
-  $( "#tbspinner" ).spinner({change:function() { tbase = $("#tbspinner").spinner("value"); } });
-  $( "#lspinner" ).spinner({change:function() { len = $("#lspinner").spinner("value"); } });
-  $( "#pspinner" ).spinner({change:function() { peri = $("#pspinner").spinner("value"); } });
-  $( "#acspinner" ).spinner({change:function() { a_c = $("#acspinner").spinner("value"); } });
-
-  if(tinf!=0){
-    time = 0;
-    temp = 1;
-    //$("#tinfspinner").spinner({disabled : true});
-    //$("#tinfslider").slider({disabled : true});
-
-    clearInterval(simTimeId);
-  }
-}
-
-//Change in Variables with respect to time
-function varinit()
-{
-	varchange();
-	//Variable r1 slider and number input types
-	$('#tinfslider').slider("value", tinf);	
-	$('#tinfspinner').spinner("value", tinf);
-
-  if (tinf > tbase) {
-    tbase = tinf + 5;
-  }
-  //-----------
-  $('#tbslider').slider("value", tbase);	
-	$('#tbspinner').spinner("value", tbase);
-
-  
-  //-----------
-  $('#lslider').slider("value", len);	
-	$('#lspinner').spinner("value", len);
-
-  //-----------
-  $('#pslider').slider("value", peri);	
-	$('#pspinner').spinner("value", peri);
-
-  //-----------
-  $('#acslider').slider("value", a_c);	
-	$('#acspinner').spinner("value", a_c);
-
-	 
-  if(time2 > 0){ t1[0] += off[0];};
-  if(time2 > 0){ t1[1] += off[1];};
-  if(time2 > 0){t1[2] += off[2];};
-  if(time2 > 3){t1[3] += off[3];};
-  if(time2 > 3){t1[4] += off[4];};
-
-  if(v == 10){
-    heat = 50;
-    qtemp = q[0];
-    ktemp = k[0];
-  }
-  else if(v == 20){
-    heat = 60;
-    qtemp = q[1];
-    ktemp = k[1];
-  }
-  else if(v == 30){
-    heat = 70;
-    qtemp = q[2];
-    ktemp = k[2];
-  }
-  else{
-    heat = 0;
-  }
-
-  $('#Heat').spinner("value",heat);
-
-	$('#temp1').spinner("value",t1[0]);
-	
-	$('#temp2').spinner("value", t1[1]);
-
-	$('#temp3').spinner("value", t1[2]);
-
-	$('#temp4').spinner("value", t1[3]);
-
-	$('#temp5').spinner("value", t1[4]);
-
-}
-
-
-
-// Initialise and Monitor variable containing user inputs of system parameters.
-//change #id and repeat block for new variable. Make sure new <div> with appropriate #id is included in the markup
-function varchange()
-{
-//Variable f slider and number input types
-$('#tinfslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#tinfspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#tinfslider" ).on( "slide", function( e, ui ) { $('#tinfspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#tinfspinner" ).on( "spin", function( e, ui ) { $('#tinfslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#tinfspinner" ).on( "change", function() {  varchange() } );
-
-//-----------------------------//
-//Variable f slider and number input types
-$('#tbslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#tbspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#tbslider" ).on( "slide", function( e, ui ) { $('#tbspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#tbspinner" ).on( "spin", function( e, ui ) { $('#tbslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#tbspinner" ).on( "change", function() {  varchange() } );
-
-//-----------------------------//
-//Variable f slider and number input types
-$('#lslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#lspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#lslider" ).on( "slide", function( e, ui ) { $('#lspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#lspinner" ).on( "spin", function( e, ui ) { $('#lslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#lspinner" ).on( "change", function() {  varchange() } );
-
-//-----------------------------//
-//Variable f slider and number input types
-$('#pslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#pspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#pslider" ).on( "slide", function( e, ui ) { $('#pspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#pspinner" ).on( "spin", function( e, ui ) { $('#pslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#pspinner" ).on( "change", function() {  varchange() } );
-
-
-//-----------------------------//
-//Variable f slider and number input types
-$('#acslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#acspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#acslider" ).on( "slide", function( e, ui ) { $('#acspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#acspinner" ).on( "spin", function( e, ui ) { $('#acslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#acspinner" ).on( "change", function() {  varchange() } );	
-
-}
-
-
-
-
-// prints comments passed as 'commenttext' in location specified by 'commentloc' in the comments box;
-// 0 : Single comment box, 1 : Left comment box, 2 : Right comment box
-function printcomment(commenttext,commentloc)
-{
-  if(commentloc==0)
-  {
-  document.getElementById('commentboxright').style.visibility='hidden';
-  document.getElementById('commentboxleft').style.width='570px';
-  document.getElementById('commentboxleft').style.textAlign = 'center';
-  document.getElementById('commentboxleft').innerHTML = commenttext;
-  }
-  else if(commentloc==1)
-  {
-  document.getElementById('commentboxright').style.visibility='visible';
-  document.getElementById('commentboxleft').style.width='285px';
-  document.getElementById('commentboxleft').innerHTML = commenttext;
-  }
-  else if(commentloc==2)
-  {
-  document.getElementById('commentboxright').style.visibility='visible';
-  document.getElementById('commentboxleft').style.width='285px';
-  document.getElementById('commentboxright').innerHTML = commenttext;
-  }
-  else
-  {
-  document.getElementById('commentboxright').style.visibility='hidden';
-  document.getElementById('commentboxleft').style.width='570px';
-  document.getElementById('commentboxleft').innerHTML = "<center>please report this issue to adityaraman@gmail.com</center>"; 
-  // ignore use of deprecated tag <center> . Code is executed only if printcomment function receives inappropriate commentloc value
-  }
-}
-
-</script>
-
-
-
-</head>
-<body onload="editcss(); drawModel(); startsim(); varinit();">
-
-<!-- DND-Verifying JavaScript is enabled in browser -->
-<noscript>
-The simulation requires JavaScript to be enabled.
-</noscript>
-
-<!-- Defining Container for Simulation -->
-<div id="container">
-
-<!-- Replace TITLE with simulation title to be displayed next to logo-->
-<div id="simtitle">Heat Transfer Through A Long Fin</div>
-
-<!-- Region for simulation display -->
-<canvas id="simscreen" height="400px" width="550px"  ></canvas>
-<div id="textbox" style="position: absolute; left:330px; top: 435px; width:250px; height:50px; " >
-  <!-- <p style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 13px;';>&nbsp; &nbsp; T1 &nbsp; &nbsp; &nbsp; &nbsp; T2&nbsp; &nbsp; &nbsp; &nbsp; T3&nbsp; &nbsp; &nbsp; &nbsp; T4&nbsp; &nbsp; &nbsp; &nbsp; T5
-  </p> -->
-</div>
-<div id="graph1" style="position: absolute;left:155px; top: 270px; width:300px; height:250px;" ></div>
-<!-- <div id="textbox1" style="position: absolute; left:75px; top: 425px; width:250px; height:50px;" >
-  <p style='font-family: "Comic Sans MS", cursive, sans-serif; font-size: 13px; text-align: center;'>Cross Sectional View<br> A-A</p>
-</div> -->
-
-
-<!-- Region for calculation visible after onclick switchbutton-->
-<div id="calculation" style="visibility: hidden">
-  <p><i>q<sub>f</sub> = &#177; &radic;(h.P.k.A.(T<sub>b</sub> - T<sub>∞</sub>))<br>
-  <p><b>Heat transfer rate through a long fin, </b></p>
-  <div class="tooltip"><label for="qvalue"><i> q<sub>f</sub> = </i></label><input type="number" id="qvalue" style="width: 125px;"> W <sub>(upto 2 decimal points)</sub>
-    <span class="tooltiptext"><script>
-
-      document.write("q<sub>f</sub> = &#177; &radic; <span style='border-top:1px solid black'>(h.P.k.A)"+"(T<sub>base</sub> - T<sub>∞</sub>)");
-
-
-      document.write("");
-    </script>
-  </div>
-  <p><input type="button" value="Check" id="qsubmit" style="position: relative; left: 100px;"><span id="symbol1" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span> <span id="symbol2" style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span></p>
-  <div id="answer1"></div>
-
-  <p><b>Temperature at L/2, </b></p>
-  <div class="tooltip"><label for="kValue"><i> T = </i></label><input type="number" id="kvalue" style="width: 125px;">°C 
-    <span class="tooltiptext"><span style="font-size: large;" class="frac">Check the graph at x = L/2</span>
-  </div>
-  
-  <p><input type="button" value="Check" id="ksubmit" style="position: relative; left: 100px;"><span id="symbol3" style="position: relative; left: 25px; color: red;visibility: hidden;">&#10008;</span> <span id="symbol4" style="position: relative; left: 25px; color: #028102;visibility: hidden;">&#10004;</span></p>
-  <div id="answer2"></div>
-  <!-- <p><span style=" color: #028102;">Correct answer</span  ><span style="color: #e7722b"> K = "++" </span></p> -->
-  
-  
-  <div style="position: absolute; top: 2px; left: 245px; width: 300px; height: 30px; font-size: large; text-align: center;"><b>Temperature distribution</b></div>
-  <div style="position: absolute; top: 20px; left: 245px; width: 300px; text-align: center;"> <p><i>T-T<sub>∞</sub></i> = (T-T<sub>b</sub>)*e<sup>-mx</sup><br></div>
-  <div id="graph" style="position: absolute;left:245px; top: 100px; width:300px; height:250px;" >
-  </div>
-</div>
- 
-</div>
-<div id="titleincanvas">
- 
-</div>
-
-
-
-<!-- Region for comment / question prompts style="visibility: hidden";-->
-<div id="commentboxleft"></div>
-<div id="commentboxright"></div>
-
-<!-- DND-Title of region for variables display --> 
-<div id="vartitle">VARIABLES</div>
-
-<!-- Region for Input parameters of simulation -->
-<div id="variables">
-
-<!-- System variable input from user through slider and spinner jQuery widgets 
-repeat block with new variable name and new id for widgets-->
-
-
-
-<div class="variable">
-	<div class="varname"><p title="Link Length">T<sub>∞</sub>(°C)</p>
-		<input id="tinfspinner"></input></div>
-	<div id="tinfslider"></div>
-</div>
-
-<div class="variable">
-	<div class="varname"><p title="Link Length">T<sub>base</sub>(°C)</p>
-		<input id="tbspinner"></input></div>
-	<div id="tbslider"></div>
-</div>
-
-<div class="variable">
-	<div class="varname"><p title="Link Length">L (mm)</p>
-		<input id="lspinner"></input></div>
-	<div id="lslider"></div>
-</div>
-
-<div class="variable">
-	<div class="varname"><p title="Link Length">P (mm)</p>
-		<input id="pspinner"></input></div>
-	<div id="pslider"></div>
-</div>
-
-
-<div class="variable">
-	<div class="varname"><p title="Link Length">A (mm<sup>2</sup>)</p>
-		<input id="acspinner"></input></div>
-	<div id="acslider"></div>
-</div>
-</div>
-
-<!-- DND-Title of region for controls display -->
-<div id="ctrltitle">CONTROLS</div>
-
-<!-- Region for User controls of simulation -->
-<div id="controls">
-    <img id="playpausebutton" onclick="simstate()" src="./images/blueplaydull.png" />
-    <img id="rotationbutton" onclick="rotstate()" src="./images//restartdull.png" />
-    <img id="switchbutton" onclick="switchscreen()" src="./images//bluefwddulls.png" />
-    <!--
-<div class="usercheck">
-<!-- Point tracing
-<input type="checkbox" id="trace" ></input> <p>Trace Mid Point</p>
-<!-- Reset Parameters
-<input type="button" id="resetparams" value="Reset" onclick="varinit();"></input> -->
-</div>
-
-
-<!-- DND-Copyright display-->
-<div id="copyright" title="Developer : Prasad_mandave"> Copyright &copy; SOLVE The Virtual Lab @ NITK Surathkal </div>
-
-</div><!-- Container div close -->
-
-<!-- For trials during development
-write in trythis() function the outputs that you want to check.
-<input type='button' onclick='trythis()' value="try me"></input> 
--->
-
-
-
-</body>
-</html>   
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOLVE - Heat Transfer - Heat through a Long Fin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="./css/mathstyle.css" rel="stylesheet" />
+    <!--Stylesheet to display Math functions -->
+
+    <link rel="stylesheet" href="css/query.css" />
+    <!-- <script defer src="https://code.jquery.com/jquery.min.js"></script> -->
+    <script
+      defer
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://code.jquery.com/ui/1.8.17/jquery-ui.min.js"
+    ></script>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script
+      defer
+      type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
+    ></script>
+    <script defer src="./js/graph.ob.js"></script>
+    <script defer src="./js/graph_use.ob.js"></script>
+    <script defer src="./js/graph_use2.ob.js"></script>
+  </head>
+  <body>
+    <div class="title-div-container">
+      <div class="title-div">
+        <div class="logo-div">
+          <a href="#"
+            ><img src="images/logo_nitk.png" alt="Logo" class="logo"
+          /></a>
+        </div>
+        <h1>Heat Transfer Through A Long Fin</h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="sidebar">
+        <ul class="tool-menu">
+          <li class="tool-list tool-objective" onclick="displayDiv(this)">
+            <a class="tool-link" title="Objective">
+              <img src="./images/objective.png" alt="Objective" class="icons" />
+            </a>
+            <span>Objective</span>
+          </li>
+          <li class="tool-list tool-description" onclick="displayDiv(this)">
+            <a class="tool-link" title="Description"
+              ><img
+                src="./images/description.png"
+                alt="Description"
+                class="icons"
+            /></a>
+            <span>Description</span>
+          </li>
+
+          <li class="tool-list tool-explore" onclick="displayDiv(this)">
+            <a class="tool-link" title="Explore"
+              ><img src="./images/explore.png" alt="Explore" class="icons"
+            /></a>
+            <span>Experiment</span>
+          </li>
+          <li class="tool-list tool-practice" onclick="displayDiv(this)">
+            <a class="tool-link" title="Variables"
+              ><img src="./images/solution.png" alt="solution" class="icons"
+            /></a>
+            <span>Solve</span>
+          </li>
+        </ul>
+      </div>
+      <div class="main">
+        <div class="main-section">
+          <div id="simulation" class="main__task-div">
+            <h3 class="task-title">Simulation</h3>
+
+            <div class="canvas__div">
+              <div class="task-screen objective">
+                <h3 class="objective__title">Objective</h3>
+                <p class="objective__main">
+                  To experimentally study the heat transfer through a long fin
+                  experiment and compare it with analytical solutions
+                </p>
+              </div>
+              <div class="task-screen description hide">
+                <h3 class="description__title">Description</h3>
+                <div class="description-conatiner">
+                  <img
+                    src="./images/screen.png"
+                    alt="apparatus"
+                    class="model"
+                  />
+                  <div class="model-detail">
+                    <p>h =100 W/m<sup>2</sup>.K</p>
+                    <p><i>K</i> = 201 W/m.K</p>
+                    <!-- <p>C<sub>p</sub> = 4.18kJ/kg-K</p>
+                    <p>Length of shaded area = 300mm</p> -->
+                  </div>
+                </div>
+              </div>
+              <div class="task-screen explore hide">
+                <div class="explore-controls">
+                  <canvas
+                    id="simscreen"
+                    width="500"
+                    height="300"
+                    class="canvas"
+                  ></canvas>
+                  <p class="comment"></p>
+                  <div class="voltage-set">
+                    
+                    <p>Set Variable</p>
+                    <button class="btn btn-start">Start</button>
+                    <button class="btn btn-reset">Reset</button>
+                  </div>
+                  
+                  <div class="temperature-set">
+                    
+                    <div class="temperature-group">
+                      <span class="temp-text">T<sub>∞</sub>(°C)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="tinfslider"></div>
+                        <input class="var-spinner" id="tinfspinner" readonly/>
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T<sub>base</sub>(°C)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="tbslider"></div>
+                        <input class="var-spinner" id="tbspinner" readonly />
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">L (mm)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="lslider"></div>
+                        <input class="var-spinner" id="lspinner" readonly/>
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">P (mm)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="pslider"></div>
+                        <input class="temp-val" id="pspinner" readonly/>
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">A (mm<sup>2</sup>)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="acslider"></div>
+                        <input class="var-spinner" id="acspinner" readonly/>
+                      </div>
+                    </div>
+                  </div>
+                
+
+                  
+                </div>
+              </div>
+                <div class="task-screen practice hide">
+                  <p id="info">Temperature Gradient</p>
+                  <p class="extra-info hide">
+                    Move the cursor to the graph to see the points
+                  </p>
+                  <div class="graph-div">
+                    <div class="graph" id="graph"></div>
+                  </div>
+                  <div class="questions">
+                    <p class="warning">
+                      Please enter a value rounded upto two decimal points
+                    </p>
+                    <div class="question-three">
+                      <div class="question-title"></div>
+                      <div class="question-formula"> <p>q<sub>f</sub> = &#177; &radic;(h.P.k.A.(T<sub>b</sub> - T<sub>∞</sub>))</p></div>
+                    
+                      <div></div>
+                    </div>
+                    <div class="question-four">
+                      <div class="question-title">Temperature distribution</div>
+                      <div class="question-formula">T-T<sub>∞</sub></i> = (T-T<sub>b</sub>)*e<sup>-mx</sup></div>
+                   
+                      <div></div>
+                    </div>
+                    <div class="question-one">
+                      <div class="question-title">Heat transfer rate through a long fin</div>
+                      <div class="question-formula">
+                        q<sub>f</sub> = &#177; &radic; <span style='border-top:1px solid black'>(h.P.k.A)"+"(T<sub>base</sub> - T<sub>∞</sub>)
+                      </div>
+                      <p class="question-label"> q<sub>f</sub> = </p>
+                      <input
+                        class="question-input question-input1"
+                        type="number"
+                      />
+                      <p class="question-unit question-unit1">
+                        W 
+                      </p>
+                      <p class="correct-answer correct-answer1 hide"></p>
+                      <button class="btn btn-check btn-check1">Check</button>
+                    </div>
+                    <div class="question-two">
+                      <div class="question-title">
+                        Temperature at L/2
+                      </div>
+                      <div class="question-formula">
+                        Check the graph at x = L/2
+                      </div>
+                      <p class="question-label">T =</p>
+                      <input
+                        class="question-input question-input2"
+                        type="number"
+                      />
+                      <p class="question-unit question-unit2">°C </p>
+                      <p class="correct-answer correct-answer2 hide"></p>
+                      <button class="btn btn-check btn-check2">Check</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main__task-div footer">
+            <p>Copyright © SOLVE The Virtual Lab @ NITK Surathkal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script defer src="js/script.js"></script>
+  </body>
+</html>
