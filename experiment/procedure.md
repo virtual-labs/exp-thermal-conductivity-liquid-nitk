@@ -5,7 +5,7 @@
 
    ![Alt text](Images/ob.png)
    
-   Click on the Description icon <img src="images/desicon.png" alt="Alt text" style="height:80px; width:80px;">  to view the description of the simulation. 
+  Click on the Description icon <img src="images/desicon.png" alt="Alt text" style="height:80px; width:80px;">  to view the description of the simulation. 
 
    ![Alt text](images/ds.png)
 

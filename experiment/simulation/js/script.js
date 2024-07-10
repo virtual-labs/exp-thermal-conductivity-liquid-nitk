@@ -432,6 +432,10 @@ function startsim() {
 function initiateProcess() {
 
   btnStart.setAttribute("disabled", true);
+  $('.temperature-group').css({
+    "opacity":0.5,
+    "pointer-events":"none"
+  });
   simstate();
   disableElements();
 }
@@ -522,6 +526,10 @@ function validateAnswer2() {
 function resetAll() {
   document.querySelector(".tool-practice").style.opacity = "0.5";
 document.querySelector(".tool-practice").style.pointerEvents = "none";
+$('.temperature-group').css({
+  "opacity":1,
+  "pointer-events":"auto"
+});
   btnStart.removeAttribute("disabled");
   document.querySelector(".comment").innerHTML = "";
   // if (temp1 == 0) {
