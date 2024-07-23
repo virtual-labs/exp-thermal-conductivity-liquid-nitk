@@ -8,13 +8,22 @@
 
 ### Lab Developers:
 
-| SNo. |              Name               | Institute |
-| :--: | :-----------------------------: | :-------: |
-|  1   | Vincent Paul Veernapu, 201ME365 |   NITK    |
+| SNo. |      Name       | Institute |
+| :--: | :-------------: | :-------: |
+|  1   | Prasad Mandave  |   NITK    |
+|  2   | Ahemad Daniyal  |   NITK    |
+|  3   |     Akshaya     |   NITK    |
+|  4   | Anusha B Salian |   NITK    |
+|  5   |     Varun       |   NITK    |
 
 ### Content Developers:
 
-| SNo. |              Name               | Institute |
-| :--: | :-----------------------------: | :-------: |
-|  1   | Vincent Paul Veernapu, 201ME365 |   NITK    |
-|  2   |         Nagaraj Kamath          |   NITK    |
+| SNo. |         Name                       | Institute |
+| :--: | :-------------------:              | :-------: |
+|  1   |    Ranjan Tunga S                  |   NITK    |
+|  2   |    Rohit Kushwaha                  |   NITK    |
+|  3   | Vincent Paul Veernapu, 201ME365    |   NITK    |
+|  4   |    Nagaraj Kamath                  |   NITK    |
+|  5   |      Vishwas A S                   |   NITK    |
+|  6   | Steevan Loyd Sequeira              |   NITK    |
+|  7   |    Ganesh Baskaran                 |   NITK    |

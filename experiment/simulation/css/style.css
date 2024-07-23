@@ -136,6 +136,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
 }
 .tool-list span {
   display: inline-block;
@@ -304,6 +305,7 @@ h1 {
 .objective__main {
   border: 2px solid var(--clr-title-background);
   font-size: 1.8rem;
+  margin: 5rem;
   padding: 2rem;
   border-radius: 2rem;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05);
@@ -337,11 +339,11 @@ h1 {
 } */
 .graph-div {
   grid-column: 1/-1;
-  position: relative;
   justify-self: center;
-  border-bottom: 0.2rem solid var(--clr-title-background);
 }
-
+.canvasjs-chart-credit {
+  display: none;
+}
 #graph {
   height: 30rem;
   width: 30rem;
@@ -410,6 +412,7 @@ h1 {
   align-self: center;
 }
 .btn-check {
+  padding: 0.5rem;
   grid-column: 1/-1;
   align-self: center;
 }
@@ -503,25 +506,27 @@ h1 {
   font-weight: 700;
 }
 .btn {
-  padding: 1rem;
   font-weight: 700;
   border: none;
   background-image: linear-gradient(
     to bottom,
     var(--clr-side-background2),
-    var(--clr-side-background3)
+    var(--clr-side-background3),
+    var(--clr-side-background2)
   );
   color: var(--clr-text-clr);
   border-radius: 1rem;
   cursor: pointer;
   transition: all 0.2s;
+  border: 0.3rem solid transparent;
   justify-self: center;
 }
 .btn:hover {
   background-image: linear-gradient(
     to bottom,
     var(--clr-side-background2),
-    var(--clr-side-background3)
+    var(--clr-side-background3),
+    var(--clr-side-background2)
   );
   background-clip: text;
   color: transparent;

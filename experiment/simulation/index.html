@@ -75,13 +75,13 @@
           </li>
 
           <li class="tool-list tool-explore" onclick="displayDiv(this)">
-            <a class="tool-link" title="Explore"
+            <a class="tool-link" title="Experiment"
               ><img src="./images/explore.png" alt="Explore" class="icons"
             /></a>
             <span>Experiment</span>
           </li>
           <li class="tool-list tool-practice" onclick="displayDiv(this)">
-            <a class="tool-link" title="Variables"
+            <a class="tool-link" title="Solve"
               ><img src="./images/solution.png" alt="solution" class="icons"
             /></a>
             <span>Solve</span>
@@ -91,18 +91,18 @@
       <div class="main">
         <div class="main-section">
           <div id="simulation" class="main__task-div">
-            <h3 class="task-title">Simulation</h3>
+            <h3 class="task-title">Objective</h3>
 
             <div class="canvas__div">
               <div class="task-screen objective">
-                <h3 class="objective__title">Objective</h3>
+                <!-- <h3 class="objective__title">Objective</h3> -->
                 <p class="objective__main">
                   To experimentally study the heat transfer through a long fin
                   experiment and compare it with analytical solutions
                 </p>
               </div>
               <div class="task-screen description hide">
-                <h3 class="description__title">Description</h3>
+                <!-- <h3 class="description__title">Description</h3> -->
                 <div class="description-conatiner">
                   <img
                     src="./images/screen.png"
@@ -130,7 +130,7 @@
                     
                     <p>Set Variable</p>
                     <button class="btn btn-start">Start</button>
-                    <button class="btn btn-reset">Reset</button>
+                    <button class="btn btn-reset" disabled>Reset</button>
                   </div>
                   
                   <div class="temperature-set">
@@ -172,9 +172,10 @@
                     </div>
                   </div>
                 
-
+             
                   
                 </div>
+                
               </div>
                 <div class="task-screen practice hide">
                   <p id="info">Temperature Gradient</p>
