@@ -25,4 +25,4 @@
 
    ![Alt text](images/solve2.png)
 
-7. click the  Check button <img src="images/checkButton.png" alt="Alt text"  > to Evaluate the result.
+7. Click the  Check button <img src="images/checkButton.png" alt="Alt text"  > to Evaluate the result.
