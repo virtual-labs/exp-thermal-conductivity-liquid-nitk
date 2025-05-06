@@ -186,25 +186,25 @@
                     <div class="graph" id="graph"></div>
                   </div>
                   <div class="questions">
-                    <p class="warning">
+                    <!-- <p class="warning">
                       Please enter a value rounded upto two decimal points
-                    </p>
+                    </p> -->
                     <div class="question-three">
                       <div class="question-title"></div>
-                      <div class="question-formula"> <p>q<sub>f</sub> = &#177; &radic;(h.P.k.A.(T<sub>b</sub> - T<sub>∞</sub>))</p></div>
+                      <div class="question-formula"> <p>q<sub>f</sub> = &#177; &radic;<span style='border-top:1px solid black'>(h.P.k.A)</span>✖(T<sub>b</sub> - T<sub>∞</sub>)</p></div>
                     
                       <div></div>
                     </div>
                     <div class="question-four">
                       <div class="question-title">Temperature distribution</div>
-                      <div class="question-formula">T-T<sub>∞</sub></i> = (T-T<sub>b</sub>)*e<sup>-mx</sup></div>
+                      <div class="question-formula" style="display: flex;flex-direction: row;"><span style="display: flex;flex-direction: column;"><span>T-T<sub>∞</sub></i></span><span style="border-top: 1px solid black;">T<sub>b</sub>-T<sub>∞</sub></span></span> <span>= e<sup>-mx</sup></span></div>
                    
                       <div></div>
                     </div>
                     <div class="question-one">
                       <div class="question-title">Heat transfer rate through a long fin</div>
                       <div class="question-formula">
-                        q<sub>f</sub> = &#177; &radic; <span style='border-top:1px solid black'>(h.P.k.A)"+"(T<sub>base</sub> - T<sub>∞</sub>)
+                        q<sub>f</sub> = &#177; &radic; <span style='border-top:1px solid black'>(h.P.k.A)+(T<sub>base</sub> - T<sub>∞</sub>)</span>
                       </div>
                       <p class="question-label"> q<sub>f</sub> = </p>
                       <input
