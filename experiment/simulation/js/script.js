@@ -13,57 +13,54 @@ const btnCheck1 = document.querySelector(".btn-check1");
 const btnCheck2 = document.querySelector(".btn-check2");
 const taskTitle = document.querySelector(".task-title");
 
-
-
 btnStart.addEventListener("click", initiateProcess);
 btnReset.addEventListener("click", resetAll);
 voltageButtons.forEach((voltage) =>
   voltage.addEventListener("click", () => setVoltage(voltage))
 );
-document.addEventListener('DOMContentLoaded', function () {
-  const sliders = document.querySelectorAll('.slider');
-  
-  sliders.forEach(slider => {
-      slider.addEventListener('input', function () {
-          const tempVal = this.nextElementSibling;
-          tempVal.textContent = this.value;
-      });
+document.addEventListener("DOMContentLoaded", function () {
+  const sliders = document.querySelectorAll(".slider");
+
+  sliders.forEach((slider) => {
+    slider.addEventListener("input", function () {
+      const tempVal = this.nextElementSibling;
+      tempVal.textContent = this.value;
+    });
   });
 });
 
-
 function enableElements() {
   const elements = [
-    {slider: 'tinfslider', spinner: 'tinfspinner'},
-    {slider: 'tbslider', spinner: 'tbspinner'},
-    {slider: 'lslider', spinner: 'lspinner'},
-    {slider: 'pslider', spinner: 'pspinner'},
-    {slider: 'acslider', spinner: 'acspinner'}
+    { slider: "tinfslider", spinner: "tinfspinner" },
+    { slider: "tbslider", spinner: "tbspinner" },
+    { slider: "lslider", spinner: "lspinner" },
+    { slider: "pslider", spinner: "pspinner" },
+    { slider: "acslider", spinner: "acspinner" },
   ];
-  
-  elements.forEach(el => {
+
+  elements.forEach((el) => {
     const slider = document.getElementById(el.slider);
     const spinner = document.getElementById(el.spinner);
-    slider.style.pointerEvents = 'auto';
-    slider.style.opacity = '1';
+    slider.style.pointerEvents = "auto";
+    slider.style.opacity = "1";
     spinner.disabled = false;
   });
 }
 
 function disableElements() {
   const elements = [
-    {slider: 'tinfslider', spinner: 'tinfspinner'},
-    {slider: 'tbslider', spinner: 'tbspinner'},
-    {slider: 'lslider', spinner: 'lspinner'},
-    {slider: 'pslider', spinner: 'pspinner'},
-    {slider: 'acslider', spinner: 'acspinner'}
+    { slider: "tinfslider", spinner: "tinfspinner" },
+    { slider: "tbslider", spinner: "tbspinner" },
+    { slider: "lslider", spinner: "lspinner" },
+    { slider: "pslider", spinner: "pspinner" },
+    { slider: "acslider", spinner: "acspinner" },
   ];
-  
-  elements.forEach(el => {
+
+  elements.forEach((el) => {
     const slider = document.getElementById(el.slider);
     const spinner = document.getElementById(el.spinner);
-    slider.style.pointerEvents = 'none';
-    slider.style.opacity = '0.5';
+    slider.style.pointerEvents = "none";
+    slider.style.opacity = "0.5";
     spinner.disabled = true;
   });
 }
@@ -80,28 +77,28 @@ var peri = 5; //Perimeter
 var a_c = 25; //Area of cross section
 var h_coeff = 100; //Convection coeff
 var k = 201;
-var qfin = 0;
+var q_fin = 0;
 var t_l2 = 0;
 
-ktemp// var m = 5;
+ktemp; // var m = 5;
 //timing section
 let simTimeId = setInterval("", "1000");
 let TimeInterval = setInterval("", "1000");
 let TimeInterval1 = setInterval("", "1000");
-var time=0;
+var time = 0;
 var time1 = 0;
 var time2 = 0;
 
 //point tracing section and initial(atmospheric section)
 var t1 = [26, 28.1, 26.5, 27, 27.2];
-var off = [0,0,0,0,0];
+var off = [0, 0, 0, 0, 0];
 var q = [43.36, 43.71, 43.84];
 var qtemp = 1;
 var ktemp = 1;
-var th = [45,45,45,45,45];
+var th = [45, 45, 45, 45, 45];
 
 //temporary or dummy variables for locking buttons
-var temp=0;
+var temp = 0;
 var temp1 = 2;
 var temp2 = 0;
 
@@ -113,19 +110,15 @@ function displayDiv(ele) {
   if (ele.classList.contains("tool-objective")) {
     document.querySelector(".objective").classList.remove("hide");
     taskTitle.textContent = "Objective";
-
   }
   if (ele.classList.contains("tool-description")) {
     document.querySelector(".description").classList.remove("hide");
     taskTitle.textContent = "Description";
-
   }
   if (ele.classList.contains("tool-explore")) {
     document.querySelector(".explore").classList.remove("hide");
     document.querySelector(".extra-info").classList.remove("hide");
     taskTitle.textContent = "Experiment";
-
-
 
     if (temp2 !== 1) {
       drawModel();
@@ -137,17 +130,15 @@ function displayDiv(ele) {
     document.querySelector(".practice").classList.remove("hide");
     taskTitle.textContent = "Solve";
 
-
     if (temp2 == 1) {
- 
       temp1 = 1;
       validation();
       document.querySelector("#info").innerHTML = "Temperature Gradient";
       document.querySelector(".extra-info").classList.remove("hide");
-      console.log("option visible")
+      console.log("option visible");
     } else {
-      console.log("option invisible")
-    
+      console.log("option invisible");
+
       document.querySelector("#info").innerHTML =
         "Perform the experiment to solve the questions";
       document.querySelector(".graph-div").classList.add("hide");
@@ -158,69 +149,73 @@ function displayDiv(ele) {
 }
 //Change in Variables with respect to time
 function varinit() {
- 
-	varchange();
-	//Variable r1 slider and number input types
-	$('#tinfslider').slider("value", tinf);	
-	$('#tinfspinner').spinner("value", tinf);
+  varchange();
+  //Variable r1 slider and number input types
+  $("#tinfslider").slider("value", tinf);
+  $("#tinfspinner").spinner("value", tinf);
 
   if (tinf > tbase) {
     tbase = tinf + 5;
   }
   //-----------
-  $('#tbslider').slider("value", tbase);	
-	$('#tbspinner').spinner("value", tbase);
-
-  
-  //-----------
-  $('#lslider').slider("value", len);	
-	$('#lspinner').spinner("value", len);
+  $("#tbslider").slider("value", tbase);
+  $("#tbspinner").spinner("value", tbase);
 
   //-----------
-  $('#pslider').slider("value", peri);	
-	$('#pspinner').spinner("value", peri);
+  $("#lslider").slider("value", len);
+  $("#lspinner").spinner("value", len);
 
   //-----------
-  $('#acslider').slider("value", a_c);	
-	$('#acspinner').spinner("value", a_c);
+  $("#pslider").slider("value", peri);
+  $("#pspinner").spinner("value", peri);
 
-	 
-  if(time2 > 0){ t1[0] += off[0];};
-  if(time2 > 0){ t1[1] += off[1];};
-  if(time2 > 0){t1[2] += off[2];};
-  if(time2 > 3){t1[3] += off[3];};
-  if(time2 > 3){t1[4] += off[4];};
+  //-----------
+  $("#acslider").slider("value", a_c);
+  $("#acspinner").spinner("value", a_c);
 
-  if(v == 10){
+  if (time2 > 0) {
+    t1[0] += off[0];
+  }
+  if (time2 > 0) {
+    t1[1] += off[1];
+  }
+  if (time2 > 0) {
+    t1[2] += off[2];
+  }
+  if (time2 > 3) {
+    t1[3] += off[3];
+  }
+  if (time2 > 3) {
+    t1[4] += off[4];
+  }
+
+  if (v == 10) {
     heat = 50;
     qtemp = q[0];
     ktemp = k[0];
-  }
-  else if(v == 20){
+  } else if (v == 20) {
     heat = 60;
     qtemp = q[1];
     ktemp = k[1];
-  }
-  else if(v == 30){
+  } else if (v == 30) {
     heat = 70;
     qtemp = q[2];
     ktemp = k[2];
-  }
-  else{
+  } else {
     heat = 0;
   }
 
   // $('#Heat').spinner("value",heat);
 
-	// $('#temp1').spinner("value",t1[0]);
-	
-	// $('#temp2').spinner("value", t1[1]);
+  // $('#temp1').spinner("value",t1[0]);
 
-	// $('#temp3').spinner("value", t1[2]);
+  // $('#temp2').spinner("value", t1[1]);
 
-	// $('#temp4').spinner("value", t1[3]);
+  // $('#temp3').spinner("value", t1[2]);
 
-	// $('#temp5').spinner("value", t1[4]);
+  // $('#temp4').spinner("value", t1[3]);
+
+  // $('#temp5').spinner("value", t1[4]);
   // console.log(currentVoltage, vf);
   // if (time2 > 0) {
   //   t1[0] += off[0];
@@ -245,60 +240,116 @@ function varinit() {
   // temperature4.textContent = t1[3].toFixed(2);
   // temperature5.textContent = t1[4].toFixed(2);
 }
-function varchange()
-{
-//Variable f slider and number input types
-$('#tinfslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#tinfspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#tinfslider" ).on( "slide", function( e, ui ) { $('#tinfspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#tinfspinner" ).on( "spin", function( e, ui ) { $('#tinfslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#tinfspinner" ).on( "change", function() {  varchange() } );
+function varchange() {
+  //Variable f slider and number input types
+  $("#tinfslider").slider({ max: 100, min: 0, step: 1 }); // slider initialisation : jQuery widget
+  $("#tinfspinner").spinner({ max: 100, min: 0, step: 1 }); // number initialisation : jQuery widget
+  // monitoring change in value and connecting slider and number
+  // setting trace point coordinate arrays to empty on change of link length
+  $("#tinfslider").on("slide", function (e, ui) {
+    $("#tinfspinner").spinner("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#tinfspinner").on("spin", function (e, ui) {
+    $("#tinfslider").slider("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#tinfspinner").on("change", function () {
+    varchange();
+  });
 
-//-----------------------------//
-//Variable f slider and number input types
-$('#tbslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#tbspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#tbslider" ).on( "slide", function( e, ui ) { $('#tbspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#tbspinner" ).on( "spin", function( e, ui ) { $('#tbslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#tbspinner" ).on( "change", function() {  varchange() } );
+  //-----------------------------//
+  //Variable f slider and number input types
+  $("#tbslider").slider({ max: 100, min: 0, step: 1 }); // slider initialisation : jQuery widget
+  $("#tbspinner").spinner({ max: 100, min: 0, step: 1 }); // number initialisation : jQuery widget
+  // monitoring change in value and connecting slider and number
+  // setting trace point coordinate arrays to empty on change of link length
+  $("#tbslider").on("slide", function (e, ui) {
+    $("#tbspinner").spinner("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#tbspinner").on("spin", function (e, ui) {
+    $("#tbslider").slider("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#tbspinner").on("change", function () {
+    varchange();
+  });
 
-//-----------------------------//
-//Variable f slider and number input types
-$('#lslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#lspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#lslider" ).on( "slide", function( e, ui ) { $('#lspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#lspinner" ).on( "spin", function( e, ui ) { $('#lslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#lspinner" ).on( "change", function() {  varchange() } );
+  //-----------------------------//
+  //Variable f slider and number input types
+  $("#lslider").slider({ max: 100, min: 0, step: 1 }); // slider initialisation : jQuery widget
+  $("#lspinner").spinner({ max: 100, min: 0, step: 1 }); // number initialisation : jQuery widget
+  // monitoring change in value and connecting slider and number
+  // setting trace point coordinate arrays to empty on change of link length
+  $("#lslider").on("slide", function (e, ui) {
+    $("#lspinner").spinner("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#lspinner").on("spin", function (e, ui) {
+    $("#lslider").slider("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#lspinner").on("change", function () {
+    varchange();
+  });
 
-//-----------------------------//
-//Variable f slider and number input types
-$('#pslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#pspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#pslider" ).on( "slide", function( e, ui ) { $('#pspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#pspinner" ).on( "spin", function( e, ui ) { $('#pslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#pspinner" ).on( "change", function() {  varchange() } );
+  //-----------------------------//
+  //Variable f slider and number input types
+  $("#pslider").slider({ max: 100, min: 0, step: 1 }); // slider initialisation : jQuery widget
+  $("#pspinner").spinner({ max: 100, min: 0, step: 1 }); // number initialisation : jQuery widget
+  // monitoring change in value and connecting slider and number
+  // setting trace point coordinate arrays to empty on change of link length
+  $("#pslider").on("slide", function (e, ui) {
+    $("#pspinner").spinner("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#pspinner").on("spin", function (e, ui) {
+    $("#pslider").slider("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#pspinner").on("change", function () {
+    varchange();
+  });
 
-
-//-----------------------------//
-//Variable f slider and number input types
-$('#acslider').slider({ max : 100, min : 0, step : 1 });		// slider initialisation : jQuery widget
-$('#acspinner').spinner({ max : 100, min : 0, step : 1 });		// number initialisation : jQuery widget			
-// monitoring change in value and connecting slider and number
-// setting trace point coordinate arrays to empty on change of link length
-$( "#acslider" ).on( "slide", function( e, ui ) { $('#acspinner').spinner("value",ui.value); ptx=[]; pty=[];j = 0 ;} );
-$( "#acspinner" ).on( "spin", function( e, ui ) { $('#acslider').slider("value",ui.value); ptx=[]; pty=[];j=0; });
-$( "#acspinner" ).on( "change", function() {  varchange() } );	
-
+  //-----------------------------//
+  //Variable f slider and number input types
+  $("#acslider").slider({ max: 100, min: 0, step: 1 }); // slider initialisation : jQuery widget
+  $("#acspinner").spinner({ max: 100, min: 0, step: 1 }); // number initialisation : jQuery widget
+  // monitoring change in value and connecting slider and number
+  // setting trace point coordinate arrays to empty on change of link length
+  $("#acslider").on("slide", function (e, ui) {
+    $("#acspinner").spinner("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#acspinner").on("spin", function (e, ui) {
+    $("#acslider").slider("value", ui.value);
+    ptx = [];
+    pty = [];
+    j = 0;
+  });
+  $("#acspinner").on("change", function () {
+    varchange();
+  });
 }
-
 
 //stops simulations
 function simperiod() {
@@ -312,7 +363,6 @@ function simperiod() {
     // watertemp();
 
     ctx.clearRect(620, 485, 100, 50);
-
   } else {
     drawGradient();
     steadyState = 5 - Math.round(time1);
@@ -320,21 +370,20 @@ function simperiod() {
       ".comment"
     ).innerHTML = `Wait for  ${steadyState} seconds for steady state`;
     btnReset.setAttribute("disabled", true);
-    
+
     if (steadyState === 0) {
       temp2 = 0;
       document.querySelector(
         ".comment"
       ).innerHTML = `The steady state is achieved
 `;
-document.querySelector(".tool-practice").style.opacity = "1";
-document.querySelector(".tool-practice").style.pointerEvents = "auto";
-btnReset.removeAttribute("disabled");
+      document.querySelector(".tool-practice").style.opacity = "1";
+      document.querySelector(".tool-practice").style.pointerEvents = "auto";
+      btnReset.removeAttribute("disabled");
     }
     if (tbase < tinf) {
-      document.querySelector(
-        ".comment"
-      ).innerHTML = `T<sub>base</sub> adjusted to `+ (Math.round(tinf+5));
+      document.querySelector(".comment").innerHTML =
+        `T<sub>base</sub> adjusted to ` + Math.round(tinf + 5);
       // printcomment("<strong>T<sub>base</sub> adjusted to <strong>" + , 2)
     }
     // printcomment(
@@ -345,19 +394,15 @@ btnReset.removeAttribute("disabled");
 }
 //draw gradient w.r.t. time in thermometer water flow and heater
 function drawGradient() {
-
   //heater simulation
-  var h = 100*time1;
+  var h = 100 * time1;
   //create gradient
-  var grd1 = ctx.createLinearGradient(0, 0, h, 0)
-  grd1.addColorStop(0,"red");
-  grd1.addColorStop(1,"pink");
+  var grd1 = ctx.createLinearGradient(0, 0, h, 0);
+  grd1.addColorStop(0, "red");
+  grd1.addColorStop(1, "pink");
   // Fill with gradient
   ctx.fillStyle = grd1;
   ctx.fillRect(100, 137, 295, 35);
- 
-
-   
 }
 
 // initial model
@@ -365,62 +410,78 @@ function drawModel() {
   ctx.clearRect(0, 0, 800, 600); //clears the complete canvas#simscreen everytime
 
   // ctx.clearRect(0,0,250,400);  //clears the complete canvas#simscreen everytime
-  
+
   var background = new Image();
   background.src = "./images//model4.png";
 
   // Make sure the image is loaded first otherwise nothing will draw.
-  background.onload = function(){
-    ctx.drawImage(background, 50, 50, 400, 200); 
+  background.onload = function () {
+    ctx.drawImage(background, 50, 50, 400, 200);
     //ctx.clearRect(78, 210, 46, 64);
     ctx.font = "15px Comic San MS";
 
     ctx.fillStyle = "black";
-   ctx.lineJoin = "round";
+    ctx.lineJoin = "round";
 
-   ctx.rect(100, 137, 295, 35);
-   ctx.stroke();
+    ctx.rect(100, 137, 295, 35);
+    ctx.stroke();
 
- 
     drawGradient();
     // printcomment("\th =100 W/m<sup>2</sup>.K<br>\t<i>K</i>  = 201 W/m.K", 1)
-  }
+  };
 }
 
 function comment1() {
-  $( "#tinfspinner" ).spinner({change:function() { tinf = $("#tinfspinner").spinner("value"); } });
-  $( "#tbspinner" ).spinner({change:function() { tbase = $("#tbspinner").spinner("value"); } });
-  $( "#lspinner" ).spinner({change:function() { len = $("#lspinner").spinner("value"); } });
-  $( "#pspinner" ).spinner({change:function() { peri = $("#pspinner").spinner("value"); } });
-  $( "#acspinner" ).spinner({change:function() { a_c = $("#acspinner").spinner("value"); } });
-  if(tinf!=0){
+  $("#tinfspinner").spinner({
+    change: function () {
+      tinf = $("#tinfspinner").spinner("value");
+    },
+  });
+  $("#tbspinner").spinner({
+    change: function () {
+      tbase = $("#tbspinner").spinner("value");
+    },
+  });
+  $("#lspinner").spinner({
+    change: function () {
+      len = $("#lspinner").spinner("value");
+    },
+  });
+  $("#pspinner").spinner({
+    change: function () {
+      peri = $("#pspinner").spinner("value");
+    },
+  });
+  $("#acspinner").spinner({
+    change: function () {
+      a_c = $("#acspinner").spinner("value");
+    },
+  });
+  if (tinf != 0) {
     time = 0;
     temp = 1;
-   
+
     clearInterval(simTimeId);
   }
-
 }
 
 //offset for thermometer and temp change
 function offset() {
-  if(currentVoltage == 10){
+  if (currentVoltage == 10) {
     //path = "./images//V1.jpg";
     off[0] = 23.4;
     off[1] = 22.58;
     off[2] = 22.9;
     off[3] = 6.5;
     off[4] = 5.9;
-  }
-  else if(currentVoltage == 20){
+  } else if (currentVoltage == 20) {
     //path = "./images//V2.jpg";
     off[0] = 24;
     off[1] = 22.98;
     off[2] = 23.3;
     off[3] = 7;
     off[4] = 6.9;
-  }
-  else if(currentVoltage == 30){
+  } else if (currentVoltage == 30) {
     //path = "./images//V3.jpg";
     off[0] = 24.2;
     off[1] = 23.18;
@@ -440,11 +501,10 @@ function startsim() {
   simTimeId = setInterval("time=time+0.1; comment1(); ", "100");
 }
 function initiateProcess() {
-
   btnStart.setAttribute("disabled", true);
-  $('.temperature-group').css({
-    "opacity":0.5,
-    "pointer-events":"none"
+  $(".temperature-group").css({
+    opacity: 0.5,
+    "pointer-events": "none",
   });
   simstate();
   disableElements();
@@ -452,47 +512,43 @@ function initiateProcess() {
 
 function simstate() {
   if (temp == 1) {
-    time=0;	
+    time = 0;
     temp = 0;
     temp1 = 1;
     TimeInterval = setInterval("time1=time1+.1; simperiod();", "100");
     TimeInterval1 = setInterval("time2=time2+1; varinit()", "1000");
-    opt="short_insulated";
-   
+    opt = "short_insulated";
   }
   // calc("short_insulated");
-
 }
 
 //Calculations of the experienment
 function validation() {
-console.log("reched this line ")
+  console.log("reched this line ");
 
-  var m= Math.sqrt((h_coeff*peri)/(k*a_c));
+  var m = Math.sqrt((h_coeff * peri) / (k * a_c));
 
   var datapoints = [];
   console.log(datapoints);
   var datapoints_1 = [];
-  var thetha_b = tbase-tinf;
-  if(opt=="short_insulated")
-  {
-    for(var i=0; i<=len; i++)
-    {
-        y = thetha_b * Math.exp(-m * i);
-        z = y + tinf;
-        // y = Math.round(y * 10)/10;
-        datapoints.push({x:i, y:z});
-        console.log(datapoints);
+  var thetha_b = tbase - tinf;
+  if (opt == "short_insulated") {
+    for (var i = 0; i <= len; i++) {
+      y = thetha_b * Math.exp(-m * i);
+      z = y + tinf;
+      // y = Math.round(y * 10)/10;
+      datapoints.push({ x: i, y: z });
+      console.log(datapoints);
     }
   }
-  q_fin = Math.sqrt(h_coeff * peri * a_c * k ) * (thetha_b);
+  q_fin = Math.sqrt(h_coeff * peri * a_c * k) * thetha_b;
   q_fin = q_fin.toFixed(2);
-  t_l2 = tinf + (thetha_b) * Math.exp(-m * (len / 2)).toFixed(2);
+  t_l2 = tinf + thetha_b * Math.exp(-m * (len / 2)).toFixed(2);
 
   drawgraph("graph", datapoints, "x in (mm)", "Temperature profile(T(x))");
-console.log(" not reched this line ")
+  console.log(" not reched this line ");
 
-    // drawgraph("graph1", datapoints_1, "x in mm", "Temperature profile(T)");
+  // drawgraph("graph1", datapoints_1, "x in mm", "Temperature profile(T)");
   btnCheck1.addEventListener("click", () => validateAnswer1());
   btnCheck2.addEventListener("click", () => validateAnswer2());
 }
@@ -504,7 +560,8 @@ function validateAnswer1() {
   let userEnteredValue = Number(
     document.querySelector(".question-input1").value
   );
-  let answer = userEnteredValue == q_fin ? true : false;
+  // let answer = userEnteredValue == q_fin ? true : false;
+  let answer = validateNearToAnswer(q_fin, userEnteredValue);
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
@@ -522,7 +579,9 @@ function validateAnswer2() {
   let userEnteredValue = Number(
     document.querySelector(".question-input2").value
   );
-  let answer = userEnteredValue === t_l2 ? true : false;
+  // let answer = userEnteredValue === t_l2 ? true : false;
+  let answer = validateNearToAnswer(t_l2, userEnteredValue);
+
   if (!userEnteredValue) return;
   if (!answer) {
     correctAnswer.classList.remove("hide");
@@ -533,21 +592,34 @@ function validateAnswer2() {
     unit.innerHTML += " <span class='correct'>&#x2713;</span>";
   }
 }
+
+function validateNearToAnswer(exactAnswer, userAnswer) {
+  const tolerance = 0.01; // Define the tolerance level
+  const lowerBound = exactAnswer - tolerance;
+  const upperBound = exactAnswer + tolerance;
+
+  if (userAnswer < lowerBound || userAnswer > upperBound) {
+    return false; // Answer is outside the tolerance range
+  } else {
+    return true; // Answer is within the tolerance range
+  }
+}
+
 function resetAll() {
   btnReset.setAttribute("disabled", true);
   document.querySelector(".tool-practice").style.opacity = "0.5";
-document.querySelector(".tool-practice").style.pointerEvents = "none";
-$('.temperature-group').css({
-  "opacity":1,
-  "pointer-events":"auto"
-});
+  document.querySelector(".tool-practice").style.pointerEvents = "none";
+  $(".temperature-group").css({
+    opacity: 1,
+    "pointer-events": "auto",
+  });
   btnStart.removeAttribute("disabled");
   document.querySelector(".comment").innerHTML = "";
   // if (temp1 == 0) {
-    temp2 = 0;
-     temp1 = 2;
-    t1 = [26, 28.1, 26.5, 27, 27.2];
-    th = [45,45,45,45,45];
+  temp2 = 0;
+  temp1 = 2;
+  t1 = [26, 28.1, 26.5, 27, 27.2];
+  th = [45, 45, 45, 45, 45];
   currentVoltage = 0;
   vf = 0;
   document.querySelector(".correct-answer1").innerHTML = "";
@@ -559,7 +631,7 @@ $('.temperature-group').css({
   varinit();
   startsim();
   drawModel();
-  enableElements()
+  enableElements();
 }
 
 function movetoTop() {
