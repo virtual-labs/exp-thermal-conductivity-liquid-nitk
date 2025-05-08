@@ -1,13 +1,252 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-		<!-- Your code goes here-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SOLVE - Heat Transfer - Heat through a Long Fin</title>
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
-</body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="./css/mathstyle.css" rel="stylesheet" />
+    <!--Stylesheet to display Math functions -->
+
+    <link rel="stylesheet" href="css/query.css" />
+    <!-- <script defer src="https://code.jquery.com/jquery.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script
+      defer
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://code.jquery.com/ui/1.8.17/jquery-ui.min.js"
+    ></script>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script
+      defer
+      type="text/javascript"
+      src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
+    ></script>
+    <script defer src="./js/graph.ob.js"></script>
+    <script defer src="./js/graph_use.ob.js"></script>
+    <script defer src="./js/graph_use2.ob.js"></script>
+  </head>
+  <body>
+    <div class="title-div-container">
+      <div class="title-div">
+        <div class="logo-div">
+          <a href="#"
+            ><img src="images/logo_nitk.png" alt="Logo" class="logo"
+          /></a>
+        </div>
+        <h1>Heat Transfer Through A Long Fin</h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="sidebar">
+        <ul class="tool-menu">
+          <li class="tool-list tool-objective" onclick="displayDiv(this)">
+            <a class="tool-link" title="Objective">
+              <img src="./images/objective.png" alt="Objective" class="icons" />
+            </a>
+            <span>Objective</span>
+          </li>
+          <li class="tool-list tool-description" onclick="displayDiv(this)">
+            <a class="tool-link" title="Description"
+              ><img
+                src="./images/description.png"
+                alt="Description"
+                class="icons"
+            /></a>
+            <span>Description</span>
+          </li>
+
+          <li class="tool-list tool-explore" onclick="displayDiv(this)">
+            <a class="tool-link" title="Experiment"
+              ><img src="./images/explore.png" alt="Explore" class="icons"
+            /></a>
+            <span>Experiment</span>
+          </li>
+          <li class="tool-list tool-practice" onclick="displayDiv(this)">
+            <a class="tool-link" title="Solve"
+              ><img src="./images/solution.png" alt="solution" class="icons"
+            /></a>
+            <span>Solve</span>
+          </li>
+        </ul>
+      </div>
+      <div class="main">
+        <div class="main-section">
+          <div id="simulation" class="main__task-div">
+            <h3 class="task-title">Objective</h3>
+
+            <div class="canvas__div">
+              <div class="task-screen objective">
+                <!-- <h3 class="objective__title">Objective</h3> -->
+                <p class="objective__main">
+                  To experimentally study the heat transfer through a long fin
+                  experiment and compare it with analytical solutions
+                </p>
+              </div>
+              <div class="task-screen description hide">
+                <!-- <h3 class="description__title">Description</h3> -->
+                <div class="description-conatiner">
+                  <img
+                    src="./images/screen.png"
+                    alt="apparatus"
+                    class="model"
+                  />
+                  <div class="model-detail">
+                    <p>h =100 W/m<sup>2</sup>.K</p>
+                    <p><i>K</i> = 201 W/m.K</p>
+                    <!-- <p>C<sub>p</sub> = 4.18kJ/kg-K</p>
+                    <p>Length of shaded area = 300mm</p> -->
+                  </div>
+                </div>
+              </div>
+              <div class="task-screen explore hide">
+                <div class="explore-controls">
+                  <canvas
+                    id="simscreen"
+                    width="500"
+                    height="300"
+                    class="canvas"
+                  ></canvas>
+                  <p class="comment"></p>
+                  <div class="voltage-set">
+                    
+                    <p>Set Variable</p>
+                    <button class="btn btn-start">Start</button>
+                    <button class="btn btn-reset" disabled>Reset</button>
+                  </div>
+                  
+                  <div class="temperature-set">
+                    
+                    <div class="temperature-group">
+                      <span class="temp-text">T<sub>∞</sub>(°C)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="tinfslider"></div>
+                        <input class="var-spinner" id="tinfspinner" readonly/>
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">T<sub>base</sub>(°C)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="tbslider"></div>
+                        <input class="var-spinner" id="tbspinner" readonly />
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">L (mm)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="lslider"></div>
+                        <input class="var-spinner" id="lspinner" readonly/>
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">P (mm)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="pslider"></div>
+                        <input class="temp-val" id="pspinner" readonly/>
+                      </div>
+                    </div>
+                    <div class="temperature-group">
+                      <span class="temp-text">A (mm<sup>2</sup>)</span>
+                      <div class="var-group">
+                        <div class="var-slider" id="acslider"></div>
+                        <input class="var-spinner" id="acspinner" readonly/>
+                      </div>
+                    </div>
+                  </div>
+                
+             
+                  
+                </div>
+                
+              </div>
+                <div class="task-screen practice hide">
+                  <p id="info">Temperature Gradient</p>
+                  <p class="extra-info hide">
+                    Move the cursor to the graph to see the points
+                  </p>
+                  <div class="graph-div">
+                    <div class="graph" id="graph"></div>
+                  </div>
+                  <div class="questions">
+                    <!-- <p class="warning">
+                      Please enter a value rounded upto two decimal points
+                    </p> -->
+                    <div class="question-three">
+                      <div class="question-title"></div>
+                      <div class="question-formula"> <p>$$q_f = ±\sqrt{(h.P.k.A)} \times (T_b - T_∞)$$</div>
+                      <!-- <div class="question-formula"> <p>q<sub>f</sub> = &#177; &radic;<span style='border-top:1px solid black'>(h.P.k.A)</span>✖(T<sub>b</sub> - T<sub>∞</sub>)</p></div> -->
+                    
+                      <div></div>
+                    </div>
+                    <div class="question-four">
+                      <div class="question-title">Temperature distribution</div>
+                      <div class="question-formula" >
+                        $$\frac{T- T_∞}{T_b- T_∞} = e^{-mx}$$
+                      </div>
+                   
+                      <div></div>
+                    </div>
+                    <div class="question-one">
+                      <div class="question-title">Heat transfer rate through a long fin</div>
+                      <div class="question-formula"> <p>$$q_f = ±\sqrt{(h.P.k.A)} \times (T_{base} - T_∞)$$</div>
+
+                      <p class="question-label"> $$q_f = $$ </p>
+                      <input
+                        class="question-input question-input1"
+                        type="number"
+                      />
+                      <p class="question-unit question-unit1">
+                        $$W$$ 
+                      </p>
+                      <p class="correct-answer correct-answer1 hide"></p>
+                      <button class="btn btn-check btn-check1">Check</button>
+                    </div>
+                    <div class="question-two">
+                      <div class="question-title">
+                        Temperature at L/2
+                      </div>
+                      <div class="question-formula">
+                        Check the graph at $$x = L/2$$
+                      </div>
+                      <p class="question-label">$$T =$$</p>
+                      <input
+                        class="question-input question-input2"
+                        type="number"
+                      />
+                      <p class="question-unit question-unit2">$$°C$$ </p>
+                      <p class="correct-answer correct-answer2 hide"></p>
+                      <button class="btn btn-check btn-check2">Check</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main__task-div footer">
+            <p>Copyright © SOLVE The Virtual Lab @ NITK Surathkal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script defer src="js/script.js"></script>
+  </body>
 </html>

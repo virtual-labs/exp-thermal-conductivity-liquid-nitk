@@ -1,1 +1,1 @@
-## Experiment name
+## Heat Transfer through a Long Fin
