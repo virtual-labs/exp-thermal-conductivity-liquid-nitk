@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="css/query.css" />
     <!-- <script defer src="https://code.jquery.com/jquery.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <script
       defer
       src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -191,28 +192,30 @@
                     </p> -->
                     <div class="question-three">
                       <div class="question-title"></div>
-                      <div class="question-formula"> <p>q<sub>f</sub> = &#177; &radic;<span style='border-top:1px solid black'>(h.P.k.A)</span>✖(T<sub>b</sub> - T<sub>∞</sub>)</p></div>
+                      <div class="question-formula"> <p>$$q_f = ±\sqrt{(h.P.k.A)} \times (T_b - T_∞)$$</div>
+                      <!-- <div class="question-formula"> <p>q<sub>f</sub> = &#177; &radic;<span style='border-top:1px solid black'>(h.P.k.A)</span>✖(T<sub>b</sub> - T<sub>∞</sub>)</p></div> -->
                     
                       <div></div>
                     </div>
                     <div class="question-four">
                       <div class="question-title">Temperature distribution</div>
-                      <div class="question-formula" style="display: flex;flex-direction: row;"><span style="display: flex;flex-direction: column;"><span>T-T<sub>∞</sub></i></span><span style="border-top: 1px solid black;">T<sub>b</sub>-T<sub>∞</sub></span></span> <span>= e<sup>-mx</sup></span></div>
+                      <div class="question-formula" >
+                        $$\frac{T- T_∞}{T_b- T_∞} = e^{-mx}$$
+                      </div>
                    
                       <div></div>
                     </div>
                     <div class="question-one">
                       <div class="question-title">Heat transfer rate through a long fin</div>
-                      <div class="question-formula">
-                        q<sub>f</sub> = &#177; &radic; <span style='border-top:1px solid black'>(h.P.k.A)+(T<sub>base</sub> - T<sub>∞</sub>)</span>
-                      </div>
-                      <p class="question-label"> q<sub>f</sub> = </p>
+                      <div class="question-formula"> <p>$$q_f = ±\sqrt{(h.P.k.A)} \times (T_{base} - T_∞)$$</div>
+
+                      <p class="question-label"> $$q_f = $$ </p>
                       <input
                         class="question-input question-input1"
                         type="number"
                       />
                       <p class="question-unit question-unit1">
-                        W 
+                        $$W$$ 
                       </p>
                       <p class="correct-answer correct-answer1 hide"></p>
                       <button class="btn btn-check btn-check1">Check</button>
@@ -222,14 +225,14 @@
                         Temperature at L/2
                       </div>
                       <div class="question-formula">
-                        Check the graph at x = L/2
+                        Check the graph at $$x = L/2$$
                       </div>
-                      <p class="question-label">T =</p>
+                      <p class="question-label">$$T =$$</p>
                       <input
                         class="question-input question-input2"
                         type="number"
                       />
-                      <p class="question-unit question-unit2">°C </p>
+                      <p class="question-unit question-unit2">$$°C$$ </p>
                       <p class="correct-answer correct-answer2 hide"></p>
                       <button class="btn btn-check btn-check2">Check</button>
                     </div>

@@ -410,6 +410,7 @@ h1 {
 }
 .question-unit {
   align-self: center;
+  justify-self: start;
 }
 .btn-check {
   padding: 0.5rem;
@@ -671,11 +672,11 @@ canvas {
 }
 
 /* .var-spinner { */
-  /* justify-self: center; */
+/* justify-self: center; */
 /* } */
 
 /* .var-slider { */
-  /* grid-column: 1/-1;
+/* grid-column: 1/-1;
   width: 50%;
   justify-self: end; */
 /* } */
