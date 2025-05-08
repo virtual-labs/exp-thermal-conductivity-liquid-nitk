@@ -1,0 +1,1 @@
+## Heat Transfer through a Long Fin

@@ -1,0 +1,90 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "The rate of heat transfer from a fin is directly proportional to:",
+      "answers": {
+        "a": "The fin's temperature",
+        "b": "The fin's surface area",
+        "c": "The fin's color",
+        "d": "The fin's thickness"
+      },
+      "explanations": {
+        "a": "The right answer is (b). The temperature difference drives the heat transfer, but it's not directly proportional as it depends on other factors as well.",
+        "b": "Correct, the right answer is (b). Heat transfer from a fin primarily occurs through conduction (within the fin material) and convection (from the fin surface to the surrounding fluid). The rate of heat transfer is directly proportional to the fin's surface area because a larger area allows more heat to be transferred by convection.",
+        "c": "The right answer is (b). The color of the fin mainly affects radiation heat transfer, which is typically less significant compared to conduction and convection in fins.",
+        "d": "The right answer is (b). The thickness of the fin affects its conductive resistance but does not directly relate to the rate of heat transfer in a simple proportional manner."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Let us say there are two rods having same dimensions, one made of brass (k = 85W/m K) and the other of copper (k = 375W/m K), having one of their ends inserted into a furnace. At a section 10.5 cm away from the furnace, the temperature of brass rod is 120 degree Celsius. Find the distance at which the same temperature would be reached in the copper rod? Both ends are exposed to the same environment.",
+      "answers": {
+        "a": "12.54 cm",
+        "b": "45.78 cm",
+        "c": "27.89 cm",
+        "d": "22.05 cm"
+      },
+      "explanations": {
+        "a": "The right answer is (d). For brass rod, 120 = t a + (t 0 – t a) e –m l and for copper rod, 120 = t a + (t 0 – t a) e –M L So L = L 0 (k 2/k 1) = 22.05 cm.",
+        "b": "The right answer is (d). For brass rod, 120 = t a + (t 0 – t a) e –m l and for copper rod, 120 = t a + (t 0 – t a) e –M L So L = L 0 (k 2/k 1) = 22.05 cm.",
+        "c": "The right answer is (d). For brass rod, 120 = t a + (t 0 – t a) e –m l and for copper rod, 120 = t a + (t 0 – t a) e –M L So L = L 0 (k 2/k 1) = 22.05 cm.",
+        "d": "Correct, the right answer is (d). For brass rod, 120 = t a + (t 0 – t a) e –m l and for copper rod, 120 = t a + (t 0 – t a) e –M L So L = L 0 (k 2/k 1) = 22.05 cm."
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "The fin parameters are as follows: Dia. of the fin 2 cm. thermal conductivity = 200 W/mK, convective heat transfer coefficient =12 W/m-K base temperature of the fin = 500 °C, Air temperature = 50 °C. The rate of heat transfer from the fin is",
+      "answers": {
+        "a": "119.7 W",
+        "b": "97.93 W",
+        "c": "57.7 W",
+        "d": "4.62 W"
+      },
+      "explanations": {
+        "a": "The right answer is (b). thermal conductivity, k = 20 W/mK , convection heat transfer coefficient, h = 12 W/mK, Base temperature of fin, T_f = 500°C, Air temperature, T_i = 50°C, Perimeter of fin, P = πd = 2π cm, Cross sectional area of fin , A = πd²/4 = π(2)²/4 = π cm². Using formula, R = √(hpkA) (T_f - T_i) = √(12 × 2π × 10¯² × 200 × π × 10¯⁴) (500 - 50) = √(48π² × 10¯⁴) × 450 ≈ 97.93 W.",
+        "b": "Correct, the right answer is (b). thermal conductivity, k = 20 W/mK , convection heat transfer coefficient, h = 12 W/mK, Base temperature of fin, T_f = 500°C, Air temperature, T_i = 50°C, Perimeter of fin, P = πd = 2π cm, Cross sectional area of fin , A = πd²/4 = π(2)²/4 = π cm². Using formula, R = √(hpkA) (T_f - T_i) = √(12 × 2π × 10¯² × 200 × π × 10¯⁴) (500 - 50) = √(48π² × 10¯⁴) × 450 ≈ 97.93 W.",
+        "c": "The right answer is (b). thermal conductivity, k = 20 W/mK , convection heat transfer coefficient, h = 12 W/mK, Base temperature of fin, T_f = 500°C, Air temperature, T_i = 50°C, Perimeter of fin, P = πd = 2π cm, Cross sectional area of fin , A = πd²/4 = π(2)²/4 = π cm². Using formula, R = √(hpkA) (T_f - T_i) = √(12 × 2π × 10¯² × 200 × π × 10¯⁴) (500 - 50) = √(48π² × 10¯⁴) × 450 ≈ 97.93 W.",
+        "d": "The right answer is (b). thermal conductivity, k = 20 W/mK , convection heat transfer coefficient, h = 12 W/mK, Base temperature of fin, T_f = 500°C, Air temperature, T_i = 50°C, Perimeter of fin, P = πd = 2π cm, Cross sectional area of fin , A = πd²/4 = π(2)²/4 = π cm². Using formula, R = √(hpkA) (T_f - T_i) = √(12 × 2π × 10¯² × 200 × π × 10¯⁴) (500 - 50) = √(48π² × 10¯⁴) × 450 ≈ 97.93 W."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Find the heat transfer rate from a hot surface for 6 fins of 10 cm length? The base temperature of the fin is maintained at 200 degree Celsius and the film is exposed to a convection environment at 15 degree Celsius with convective coefficient 25W/square m K. Each fin has cross-sectional area 2.5 square centimeter and is made of a material having thermal conductivity 250W/m K.",
+      "answers": {
+        "a": "120.69 W",
+        "b": "130.18 W",
+        "c": "250.78 W",
+        "d": "140.27 W"
+      },
+      "explanations": {
+        "a": "The right answer is (b). n = 6 and l = 10 cm = 0.1 m, ml = 0.4472, Q = 6[(250) (2.5 * 10– 4) (4.472) (200 – 15) tan h (0.4472) = 130.18W.",
+        "b": "Correct, the right answer is (b). n = 6 and l = 10 cm = 0.1 m, ml = 0.4472, Q = 6[(250) (2.5 * 10– 4) (4.472) (200 – 15) tan h (0.4472) = 130.18W.",
+        "c": "The right answer is (b). n = 6 and l = 10 cm = 0.1 m, ml = 0.4472, Q = 6[(250) (2.5 * 10– 4) (4.472) (200 – 15) tan h (0.4472) = 130.18W.",
+        "d": "The right answer is (b). n = 6 and l = 10 cm = 0.1 m, ml = 0.4472, Q = 6[(250) (2.5 * 10– 4) (4.472) (200 – 15) tan h (0.4472) = 130.18W."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is one of the assumptions made in the analysis of fins?",
+      "answers": {
+        "a": "Constant thermal conductivity of the material",
+        "b": "Constant and uniform convection heat transfer coefficient over the entire surface of the fin",
+        "c": "Steady operation with no heat generation in the fin",
+        "d": "All of the above"
+      },
+      "explanations": {
+        "a": "The right answer is (d). It is assumed that the thermal conductivity does not change with temperature, which simplifies the heat conduction equation.",
+        "b": "The right answer is (d). This assumption allows for a uniform analysis of heat transfer from the fin to the surrounding environment without having to account for variations in convection efficiency.",
+        "c": "The right answer is (d). This assumes that there are no transient effects or internal heat sources within the fin, which simplifies the energy balance and allows for a steady-state solution.",
+        "d": "Correct, the right answer is (d). Constant thermal conductivity of the material. It is assumed that the thermal conductivity does not change with temperature, which simplifies the heat conduction equation. Constant and uniform convection heat transfer coefficient over the entire surface of the fin. This assumption allows for a uniform analysis of heat transfer from the fin to the surrounding environment without having to account for variations in convection efficiency. Steady operation with no heat generation in the fin. This assumes that there are no transient effects or internal heat sources within the fin, which simplifies the energy balance and allows for a steady-state solution."
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    }
+  ]
+}
