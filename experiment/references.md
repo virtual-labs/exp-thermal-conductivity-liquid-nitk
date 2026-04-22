@@ -14,11 +14,11 @@
     </td>
 <td>Developers:<br/> 
     <ul style="list-style-type: none;">
-     <li>Dr. K V Gangadharan | NITK</li> 
      <li>Dr. Parthasarathy P | NITK</li>
+     <li>Dr. K V Gangadharan | NITK</li> 
     </ul>
-    </br> 
-  Contributors :
+    </br>  
+     Contributors :
         <ul style="list-style-type: none;">
     <li>Vincent Paul Veernapu | 201ME365 | NITK</li>
     <li>Nagaraja Kamath| 227ME004| NITK <li>
