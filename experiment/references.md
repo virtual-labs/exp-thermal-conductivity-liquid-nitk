@@ -12,8 +12,13 @@
         <li><a href="https://www.youtube.com/watch?v=cweuic8mJ00">Mod-01 Lec-37 Fin heat transfer- II</li>
       </ol>
     </td>
-    <td>Developer : Dr. K V Gangadharan | NITK</br></br>
-    Contributors :
+<td>Developers:<br/> 
+    <ul style="list-style-type: none;">
+     <li>Dr. Parthasarathy P | NITK</li>
+     <li>Dr. K V Gangadharan | NITK</li> 
+    </ul>
+    </br>  
+     Contributors :
         <ul style="list-style-type: none;">
     <li>Vincent Paul Veernapu | 201ME365 | NITK</li>
     <li>Nagaraja Kamath| 227ME004| NITK <li>
